@@ -13,14 +13,14 @@ public class Archivo implements IArchivo {
     }
 
     @Override
-    public void guardarEnArchivo(Tienda tienda) throws Exception{
+    public void guardarEnArchivo(Tienda tienda) throws ClassNotFoundException, IOException{
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new BufferedOutputStream(new FileOutputStream(nombreArchivo)))) {
             oos.writeObject(tienda);
         }
     }
     @Override
-    public Tienda cargarDesdeArchivo() throws Exception {
+    public Tienda cargarDesdeArchivo() throws ClassNotFoundException, IOException{
         File archivo = new File(nombreArchivo);
         if (!archivo.exists()) {
             return new Tienda(); // Retorna una tienda nueva si no hay datos previos
