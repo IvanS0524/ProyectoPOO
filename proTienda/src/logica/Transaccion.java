@@ -16,6 +16,7 @@ import java.util.List;
 public abstract class Transaccion implements Serializable {
     protected LocalDateTime fecha;
     protected List<Detalle> detalles;
+    protected int id;
     protected double total;
     
     public Transaccion(){

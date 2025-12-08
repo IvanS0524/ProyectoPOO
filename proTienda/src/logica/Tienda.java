@@ -46,6 +46,33 @@ public class Tienda implements Serializable {
         proveedores.remove(p);
     }
 
+    public Producto getProductoPorId(int id){
+        for (Producto p : productos) {
+            if (p != null && p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Cliente getClientePorId(int id){
+        for (Cliente c : clientes) {
+            if (c != null && c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Proveedor getProveedorPorId(int id){
+        for (Proveedor p : proveedores) {
+            if (p != null && p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 
 
 }

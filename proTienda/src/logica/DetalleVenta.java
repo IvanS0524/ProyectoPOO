@@ -11,8 +11,9 @@ package logica;
 public class DetalleVenta extends Detalle{
     private Cliente cliente;
     
-    public DetalleVenta(Producto producto, int cantidad) {
+    public DetalleVenta(Producto producto, int cantidad, Cliente cliente) {
         super(producto, cantidad);
+        this.cliente = cliente;
     }
 
     @Override
