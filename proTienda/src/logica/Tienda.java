@@ -26,6 +26,9 @@ public class Tienda implements Serializable {
     public List<Proveedor> getProveedores() {
         return proveedores;
     }
+    public List<Transaccion> getTransacciones() {
+        return transacciones;
+    }
 
     public void addProducto(Producto p) {
         productos.add(p);
@@ -36,7 +39,10 @@ public class Tienda implements Serializable {
     public void addProveedor(Proveedor p) {
         proveedores.add(p);
     }
-
+    public void addTransaccion(Transaccion t) {
+        transacciones.add(t);
+    }
+    
     public void eliminarProducto(Producto p) {
         productos.remove(p);
     }
@@ -73,7 +79,5 @@ public class Tienda implements Serializable {
         }
         return null;
     }
-
-
 
 }

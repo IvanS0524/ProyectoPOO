@@ -30,7 +30,7 @@ public class MiTienda extends javax.swing.JFrame {
         try{
             tienda = (Tienda) archivo.cargarDesdeArchivo(); 
             JOptionPane.showMessageDialog(rootPane, "Archivo cargado correctamente");
-            actualizarTabla();
+            actualizarTablas();
         } catch (ClassNotFoundException e){
             JOptionPane.showMessageDialog(rootPane, "Error: Clase no encontrada - " + e.getMessage());
         } catch (IOException ex){
@@ -47,8 +47,15 @@ public class MiTienda extends javax.swing.JFrame {
     Tienda tienda = new Tienda();
     Archivo archivo = new Archivo("tienda.bin");
 
+    private void actualizarTablas(){
+        actualizarTablaInventario();
+        actualizarTablaClientes();
+        actualizarTablaProveedores();
+        actualizarTablaTransacciones();
+    }
+    
     // Método auxiliar para rellenar la tabla
-    private void actualizarTabla() {
+    private void actualizarTablaInventario() {
         // 1. Obtenemos el modelo de tu jTable1
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         
@@ -66,6 +73,56 @@ public class MiTienda extends javax.swing.JFrame {
                 p.getPrecioVenta()
             });
         }
+        }
+    }
+    
+    private void actualizarTablaClientes() {
+        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.setRowCount(0); // Limpiar tabla
+        
+        if (tienda.getClientes() != null) {
+            for (Cliente c : tienda.getClientes()) {
+                // Ajusta los getters según tu clase Cliente
+                modelo.addRow(new Object[] {
+                    c.getId(),
+                    c.getNombre(),
+                    (c.getTelefono() != null) ? c.getTelefono() : "Sin Tlf"
+                });
+            }
+        }
+    }
+
+    private void actualizarTablaProveedores() {
+        DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
+        modelo.setRowCount(0);
+        
+        if (tienda.getProveedores() != null) {
+            for (Proveedor p : tienda.getProveedores()) {
+                modelo.addRow(new Object[] {
+                    p.getId(),
+                    p.getNombre(),
+                    p.getEmail(),
+                    "Sin Tlf" // O p.getTelefono() si ya se lo agregaste a la clase
+                });
+            }
+        }
+    }
+
+    private void actualizarTablaTransacciones() {
+        DefaultTableModel modelo = (DefaultTableModel) tblTransaccion.getModel();
+        modelo.setRowCount(0);
+        
+        if (tienda.getTransacciones() != null) {
+            for (Transaccion t : tienda.getTransacciones()) {
+                // NOTA: Aquí asumo los nombres de tus métodos en la clase Transaccion.
+                // Verifica que coincidan con tu clase (getFecha, getTipo, getTotal, etc.)
+                modelo.addRow(new Object[] {
+                    t.getFecha().toString(), // Convertir fecha a String
+                    "Detalle..",             // Podrías poner t.getDetalles().size() + " prod"
+                    "monto",
+                    t.getClass().getSimpleName() // Esto te dirá si es "Compra" o "Venta" automáticamente
+                });
+            }
         }
     }
     
@@ -529,7 +586,7 @@ public class MiTienda extends javax.swing.JFrame {
         try {
             archivo.guardarEnArchivo(tienda);
             JOptionPane.showMessageDialog(rootPane, "Datos guardads correctamente en archivo binario.");
-            actualizarTabla();
+            actualizarTablaInventario();
         } catch(ClassNotFoundException ex){
             System.out.println("Clase invalida");
         } catch (IOException e) {
@@ -598,7 +655,7 @@ public class MiTienda extends javax.swing.JFrame {
             
             DetalleCompra detalle = new DetalleCompra(producto, 1, proveedorEncontrado);
             
-            actualizarTabla();
+            actualizarTablaInventario();
             
             JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
@@ -610,7 +667,6 @@ public class MiTienda extends javax.swing.JFrame {
 
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
         // TODO add your handling code here:
-        
         
         
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
