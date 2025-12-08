@@ -740,22 +740,25 @@ public class MiTienda extends javax.swing.JFrame {
             }
 
             // 3. Pedir Email
-            String tel = JOptionPane.showInputDialog(this, "Ingrese el Email del Proveedor:");
+            String tel = JOptionPane.showInputDialog(this, "Ingrese el Email del Usuario:");
             if (tel == null) return; 
 
             // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
             // Si el email está mal, el constructor o el set lanzarán la excepción
-            Proveedor nuevoProv = new Proveedor(nombre, id, tel); 
+            Cliente nuevoCliente = new Cliente(nombre, id, tel); 
 
             // 5. Agregar a la tabla visual (JTable)
             DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
 
             // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
-            modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
+            modelo.addRow(new Object[]{nuevoCliente.getId(), nuevoCliente.getNombre(), nuevoCliente.getTelefono(), "300"});
 
             // 6. Mensaje de éxito
             JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
 
+            tienda.addCliente(nuevoCliente);
+            archivo.guardarEnArchivo(tienda);
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
