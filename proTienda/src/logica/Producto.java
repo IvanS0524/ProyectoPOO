@@ -21,7 +21,7 @@ public class Producto extends Entidad {
     public int getStock() {
         return stock;
     }
-    public void setEnInventario(int enInventario) {
+    public void setStock(int enInventario) {
         if (enInventario < 0) {
             throw new IllegalArgumentException("La cantidad en inventario no puede ser negativa.");
         }

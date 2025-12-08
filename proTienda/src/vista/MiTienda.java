@@ -124,6 +124,7 @@ public class MiTienda extends javax.swing.JFrame {
         tblProveedores = new javax.swing.JTable();
         btnEliminarProveedor = new javax.swing.JButton();
         btnAñadirProveedor = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblTransaccion = new javax.swing.JTable();
@@ -446,6 +447,8 @@ public class MiTienda extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Guardar Datos");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -458,7 +461,8 @@ public class MiTienda extends javax.swing.JFrame {
                         .addComponent(btnAñadirProveedor)
                         .addGap(13, 13, 13)
                         .addComponent(btnEliminarProveedor)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -468,7 +472,8 @@ public class MiTienda extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminarProveedor)
-                    .addComponent(btnAñadirProveedor))
+                    .addComponent(btnAñadirProveedor)
+                    .addComponent(jButton2))
                 .addGap(0, 59, Short.MAX_VALUE))
         );
 
@@ -532,27 +537,44 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarEnArchivoActionPerformed
 
-    
-    private Proveedor verificarProveedor(int idProveedor) {
-    // Asumo que 'tienda' tiene un método getProveedores() que devuelve un ArrayList o List
-        for (Proveedor prov : tienda.getProveedores()) {
-            if (prov.getId() == idProveedor) {
-                return prov; // Retorna el proveedor si lo encuentra
-            }
-        }
-        return null; // Retorna null si no existe
+    private Producto gestionarProducto(int id, String nombre, int cantidad, double pCompra, double pVenta) {
+    // Usamos el método que YA tienes en tu clase Tienda
+    Producto prod = tienda.getProductoPorId(id);
+
+    if (prod != null) {
+        // --- CASO 1: YA EXISTE (Actualizar) ---
+        int nuevoStock = prod.getStock() + cantidad;
+        prod.setStock(nuevoStock);
+        
+        // Actualizamos datos informativos
+        prod.setPrecioCompra(pCompra);
+        prod.setPrecioVenta(pVenta);
+        prod.setNombre(nombre);
+        
+        JOptionPane.showMessageDialog(rootPane, "Producto existente actualizdo. Nuevo stock: " + nuevoStock);
+        return prod; // Retornamos el producto existente modificado
+    } else {
+        // --- CASO 2: NUEVO (Crear) ---
+        Producto nuevo = new Producto(nombre, id, cantidad, pCompra, pVenta);
+        tienda.addProducto(nuevo);
+        
+        JOptionPane.showMessageDialog(rootPane, "Producto nuevo registrado exitosamente.");
+        return nuevo; // Retornamos el producto nuevo
     }
+}
+    
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
         //Agregar q cuando se haga una compra se cree una transacion
         try {
             int idProv = Integer.parseInt(jTFIdProveedor.getText()); 
-            Proveedor proveedorEncontrado = verificarProveedor(idProv);
+            Proveedor proveedorEncontrado = tienda.getProveedorPorId(idProv);
+            
             if (proveedorEncontrado == null) {
                 JOptionPane.showMessageDialog(rootPane, "El proveedor con ID " + idProv + " no existe.");
                 return; // Detenemos la ejecución aquí si no hay proveedor
             }
-           
+            /**
             Producto nuevoProducto = new Producto(
                 jTFNombre.getText(), 
                 Integer.parseInt(jTFId.getText()), 
@@ -560,14 +582,24 @@ public class MiTienda extends javax.swing.JFrame {
                 Double.parseDouble(jTFPrecioCompra.getText()), 
                 Double.parseDouble(jTFPrecioVenta.getText())
             );
-            
-            tienda.addProducto(nuevoProducto);
+            tienda.addProducto(nuevoProducto);**/
+            // 2. Recoger datos de las cajas de texto
+            int idProd = Integer.parseInt(jTFId.getText());
+            int cant = Integer.parseInt(jTFStock.getText()); // Cantidad a comprar
+            double pCompra = Double.parseDouble(jTFPrecioCompra.getText());
+            double pVenta = Double.parseDouble(jTFPrecioVenta.getText());
+            String nombre = jTFNombre.getText();
+
+            // 3. PROCESAR PRODUCTO (Aquí llamamos al método nuevo)
+            // El método se encarga de decidir si crea o actualiza y nos devuelve el producto listo.
+            Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
 
             Compra compra = new Compra(proveedorEncontrado);
             
-            DetalleCompra detalle = new DetalleCompra(nuevoProducto, 1, proveedorEncontrado);
+            DetalleCompra detalle = new DetalleCompra(producto, 1, proveedorEncontrado);
             
             actualizarTabla();
+            
             JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
             JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos "+ex);
@@ -613,6 +645,9 @@ public class MiTienda extends javax.swing.JFrame {
             // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
             modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
 
+            tienda.addProveedor(nuevoProv);
+            
+            archivo.guardarEnArchivo(tienda);
             // 6. Mensaje de éxito
             JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
 
@@ -723,6 +758,7 @@ public class MiTienda extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiarV;
     private javax.swing.JButton btnRealizarVenta;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

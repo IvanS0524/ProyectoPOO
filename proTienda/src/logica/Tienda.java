@@ -14,6 +14,7 @@ public class Tienda implements Serializable {
         this.productos = new ArrayList<>();
         this.clientes = new ArrayList<>();
         this.proveedores = new ArrayList<>();
+        this.transacciones = new ArrayList<>();
     }
 
     public List<Producto> getProductos() {
