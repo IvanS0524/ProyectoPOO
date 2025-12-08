@@ -1,7 +1,7 @@
 package logica;
 
 public class Producto extends Entidad {
-    private int enInventario;
+    private int stock;
     private double precioCompra;
     private double precioVenta;
 
@@ -9,23 +9,23 @@ public class Producto extends Entidad {
 
         this.precioCompra = 0;
         this.precioVenta = 0;
-        this.enInventario = 0;
+        this.stock = 0;
     }
-    public Producto(String nombre, Integer id, int enInventario, double precioCompra, double precioVenta) {
+    public Producto(String nombre, Integer id, int stock, double precioCompra, double precioVenta) {
         super(nombre, id);
-        this.enInventario = enInventario;
+        this.stock = stock;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
     }
 
-    public int getEnInventario() {
-        return enInventario;
+    public int getStock() {
+        return stock;
     }
     public void setEnInventario(int enInventario) {
         if (enInventario < 0) {
             throw new IllegalArgumentException("La cantidad en inventario no puede ser negativa.");
         }
-        this.enInventario = enInventario;
+        this.stock = stock;
     }
 
     public double getPrecioCompra() {
@@ -50,7 +50,7 @@ public class Producto extends Entidad {
 
     @Override
     public String toString() {
-        return "NOMBRE PRODUCTO: " + nombre + " | ID: " + id + " | EN INVENTARIO: " + enInventario + " | PRECIO COMPRA: " + precioCompra + " | PRECIO VENTA: " + precioVenta;
+        return "NOMBRE PRODUCTO: " + nombre + " | ID: " + id + " | STOCK: " + stock + " | PRECIO COMPRA: " + precioCompra + " | PRECIO VENTA: " + precioVenta;
     }
 
 }

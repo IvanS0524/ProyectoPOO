@@ -7,7 +7,7 @@ public class Proveedor extends Entidad {
     }
     public Proveedor(String nombre, Integer id, String email) {
         super(nombre, id);
-        this.email = email;
+        setEmail(email);
     }
 
     public String getEmail() {

@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import logica.*;
 import persistencia.Archivo;
 
 /**
  *
- * @author ivans
+ * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero 02224200 - Salomon Restrepo  
  */
 public class MiTienda extends javax.swing.JFrame {
     
@@ -24,6 +25,7 @@ public class MiTienda extends javax.swing.JFrame {
      */
     public MiTienda() {
         initComponents();
+        this.setLocationRelativeTo(null);
         
         try{
             tienda = (Tienda) archivo.cargarDesdeArchivo(); 
@@ -60,7 +62,7 @@ public class MiTienda extends javax.swing.JFrame {
             modelo.addRow(new Object[] {
                 p.getId(),
                 p.getNombre(),
-                p.getEnInventario(),
+                p.getStock(),
                 p.getPrecioVenta()
             });
         }
@@ -85,12 +87,13 @@ public class MiTienda extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         btnRealizarVenta = new javax.swing.JButton();
         btnGuardarEnArchiv = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jTFIdProducto = new javax.swing.JTextField();
+        jTFCantidadProducto = new javax.swing.JTextField();
+        jTFPrecioProducto = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jTFIdCliente = new javax.swing.JTextField();
+        jTFNombreProducto = new javax.swing.JTextField();
+        btnLimpiarV = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -100,28 +103,30 @@ public class MiTienda extends javax.swing.JFrame {
         btnCompra = new javax.swing.JButton();
         jTFNombre = new javax.swing.JTextField();
         jTFId = new javax.swing.JTextField();
-        jTFEnInventario = new javax.swing.JTextField();
+        jTFStock = new javax.swing.JTextField();
         jTFPrecioCompra = new javax.swing.JTextField();
         jTFPrecioVenta = new javax.swing.JTextField();
         btnGuardarEnArchivo = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jTFPrecioVenta1 = new javax.swing.JTextField();
+        jTFIdProveedor = new javax.swing.JTextField();
+        btnLimpiarC = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tblClientes = new javax.swing.JTable();
+        btnAñadirCliente = new javax.swing.JButton();
+        btnEliminarCliente = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        tblProveedores = new javax.swing.JTable();
+        btnEliminarProveedor = new javax.swing.JButton();
+        btnAñadirProveedor = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblTransaccion = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -155,6 +160,8 @@ public class MiTienda extends javax.swing.JFrame {
 
         jLabel11.setText("ID cliente");
 
+        btnLimpiarV.setText("Limpiar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -164,30 +171,28 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTFPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnGuardarEnArchiv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7))
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTFNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRealizarVenta))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(191, 191, 191)
-                                .addComponent(btnGuardarEnArchiv))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(189, 189, 189)))))
+                        .addComponent(btnRealizarVenta)))
                 .addGap(103, 103, 103))
         );
         jPanel1Layout.setVerticalGroup(
@@ -195,36 +200,36 @@ public class MiTienda extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(btnRealizarVenta)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTFPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(btnGuardarEnArchiv)))
-                .addGap(18, 18, 18)
+                        .addGap(19, 19, 19)
+                        .addComponent(btnGuardarEnArchiv)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiarV)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                    .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ventas", jPanel1);
@@ -233,7 +238,7 @@ public class MiTienda extends javax.swing.JFrame {
 
         jLabel3.setText("ID");
 
-        jLabel4.setText("En Inventario");
+        jLabel4.setText("Stock");
 
         jLabel5.setText("Precio de venta");
 
@@ -255,6 +260,13 @@ public class MiTienda extends javax.swing.JFrame {
 
         jLabel12.setText("Id proveedor");
 
+        btnLimpiarC.setText("Limpiar");
+        btnLimpiarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarCActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -264,8 +276,8 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(30, 30, 30)
-                        .addComponent(jTFEnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTFStock, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -284,12 +296,13 @@ public class MiTienda extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFPrecioVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCompra)
-                    .addComponent(btnGuardarEnArchivo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnGuardarEnArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(64, 64, 64))
         );
         jPanel2Layout.setVerticalGroup(
@@ -306,17 +319,14 @@ public class MiTienda extends javax.swing.JFrame {
                     .addComponent(btnCompra))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFEnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(btnGuardarEnArchivo)))
+                    .addComponent(jTFStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(btnGuardarEnArchivo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiarC))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -324,8 +334,8 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTFPrecioVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", jPanel2);
@@ -349,34 +359,38 @@ public class MiTienda extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Inventario", jPanel3);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Title 3", "Telefono"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblClientes);
 
-        jButton3.setText("Añadir");
+        btnAñadirCliente.setText("Añadir");
+        btnAñadirCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirClienteActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Eliminar");
+        btnEliminarCliente.setText("Eliminar");
+
+        jButton1.setText("Guardar Datos");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -385,43 +399,52 @@ public class MiTienda extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnAñadirCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarCliente)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(0, 54, Short.MAX_VALUE))
+                    .addComponent(btnAñadirCliente)
+                    .addComponent(btnEliminarCliente)
+                    .addComponent(jButton1))
+                .addGap(0, 58, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Clientes", jPanel4);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Mail", "Telefono"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblProveedores);
 
-        jButton5.setText("Eliminar");
+        btnEliminarProveedor.setText("Eliminar");
+        btnEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProveedorActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Añadir");
+        btnAñadirProveedor.setText("Añadir");
+        btnAñadirProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirProveedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -430,28 +453,28 @@ public class MiTienda extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton6)
+                        .addComponent(btnAñadirProveedor)
                         .addGap(13, 13, 13)
-                        .addComponent(jButton5)
+                        .addComponent(btnEliminarProveedor)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addGap(0, 64, Short.MAX_VALUE))
+                    .addComponent(btnEliminarProveedor)
+                    .addComponent(btnAñadirProveedor))
+                .addGap(0, 59, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Proveedores", jPanel6);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblTransaccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -462,7 +485,7 @@ public class MiTienda extends javax.swing.JFrame {
                 "Fecha", "Producto", "Total", "Tipo"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tblTransaccion);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -475,7 +498,7 @@ public class MiTienda extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Transaccion", jPanel7);
@@ -484,14 +507,11 @@ public class MiTienda extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
@@ -503,7 +523,7 @@ public class MiTienda extends javax.swing.JFrame {
         // TODO add your handling code here:}
         try {
             archivo.guardarEnArchivo(tienda);
-            JOptionPane.showMessageDialog(rootPane, "Agenda guardada correctamente en archivo binario.");
+            JOptionPane.showMessageDialog(rootPane, "Datos guardads correctamente en archivo binario.");
             actualizarTabla();
         } catch(ClassNotFoundException ex){
             System.out.println("Clase invalida");
@@ -512,17 +532,43 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarEnArchivoActionPerformed
 
+    
+    private Proveedor verificarProveedor(int idProveedor) {
+    // Asumo que 'tienda' tiene un método getProveedores() que devuelve un ArrayList o List
+        for (Proveedor prov : tienda.getProveedores()) {
+            if (prov.getId() == idProveedor) {
+                return prov; // Retorna el proveedor si lo encuentra
+            }
+        }
+        return null; // Retorna null si no existe
+    }
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
         //Agregar q cuando se haga una compra se cree una transacion
         try {
-            tienda.addProducto(new Producto(jTFNombre.getText(), Integer.parseInt(jTFId.getText()), Integer.parseInt(jTFEnInventario.getText()), Double.parseDouble(jTFPrecioCompra.getText()), Double.parseDouble(jTFPrecioVenta.getText())));
-            //resisar mañana
-            DetalleCompra detalle = new DetalleCompra(new Producto(jTFNombre.getText(), Integer.parseInt(jTFId.getText()), Integer.parseInt(jTFEnInventario.getText()), Double.parseDouble(jTFPrecioCompra.getText()), Double.parseDouble(jTFPrecioVenta.getText())), 1);
-            Compra compra = new Compra(new Proveedor("SS", 01, "SSS"));
+            int idProv = Integer.parseInt(jTFIdProveedor.getText()); 
+            Proveedor proveedorEncontrado = verificarProveedor(idProv);
+            if (proveedorEncontrado == null) {
+                JOptionPane.showMessageDialog(rootPane, "El proveedor con ID " + idProv + " no existe.");
+                return; // Detenemos la ejecución aquí si no hay proveedor
+            }
+           
+            Producto nuevoProducto = new Producto(
+                jTFNombre.getText(), 
+                Integer.parseInt(jTFId.getText()), 
+                Integer.parseInt(jTFStock.getText()), 
+                Double.parseDouble(jTFPrecioCompra.getText()), 
+                Double.parseDouble(jTFPrecioVenta.getText())
+            );
+            
+            tienda.addProducto(nuevoProducto);
+
+            Compra compra = new Compra(proveedorEncontrado);
+            
+            DetalleCompra detalle = new DetalleCompra(nuevoProducto, 1, proveedorEncontrado);
             
             actualizarTabla();
-            JOptionPane.showMessageDialog(rootPane, "Datos guardados correctamente");
+            JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
             JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos "+ex);
         } catch(DateTimeParseException e){
@@ -536,6 +582,109 @@ public class MiTienda extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
+
+    private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
+        // TODO add your handling code here:
+        //NECESITO EXPLII
+        try {
+            // 1. Pedir ID (y validar que sea número)
+            String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Proveedor:");
+            if (idStr == null || idStr.trim().isEmpty()) return;
+            Integer id = Integer.parseInt(idStr);
+
+            // 2. Pedir Nombre
+            String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Proveedor:");
+            if (nombre == null || nombre.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
+                return;
+            }
+
+            // 3. Pedir Email
+            String email = JOptionPane.showInputDialog(this, "Ingrese el Email del Proveedor:");
+            if (email == null) return; 
+
+            // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
+            // Si el email está mal, el constructor o el set lanzarán la excepción
+            Proveedor nuevoProv = new Proveedor(nombre, id, email); 
+
+            // 5. Agregar a la tabla visual (JTable)
+            DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
+
+            // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
+            modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
+
+            // 6. Mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            // ESTA PARTE CAPTURA TU VALIDACIÓN DE EMAIL
+            // Mostrará: "Formato de correo inválido: ..." o "El email no puede ser nulo..."
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnAñadirProveedorActionPerformed
+
+    private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnEliminarProveedorActionPerformed
+
+    private void btnAñadirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirClienteActionPerformed
+        // TODO add your handling code here:
+        try {
+            // 1. Pedir ID (y validar que sea número)
+            String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Usuario:");
+            if (idStr == null || idStr.trim().isEmpty()) return;
+            Integer id = Integer.parseInt(idStr);
+
+            // 2. Pedir Nombre
+            String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Usuario:");
+            if (nombre == null || nombre.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
+                return;
+            }
+
+            // 3. Pedir Email
+            String tel = JOptionPane.showInputDialog(this, "Ingrese el Email del Proveedor:");
+            if (tel == null) return; 
+
+            // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
+            // Si el email está mal, el constructor o el set lanzarán la excepción
+            Proveedor nuevoProv = new Proveedor(nombre, id, tel); 
+
+            // 5. Agregar a la tabla visual (JTable)
+            DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+
+            // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
+            modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
+
+            // 6. Mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            // ESTA PARTE CAPTURA TU VALIDACIÓN DE EMAIL
+            // Mostrará: "Formato de correo inválido: ..." o "El email no puede ser nulo..."
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnAñadirClienteActionPerformed
+
+    private void btnLimpiarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCActionPerformed
+        // TODO add your handling code here:
+        jTFNombre.setText("");
+        jTFId.setText("");
+        jTFStock.setText("");
+        jTFPrecioCompra.setText("");
+        jTFPrecioVenta.setText("");
+        jTFIdProveedor.setText("");
+    }//GEN-LAST:event_btnLimpiarCActionPerformed
 
     /**
      * @param args the command line arguments
@@ -563,14 +712,17 @@ public class MiTienda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAñadirCliente;
+    private javax.swing.JButton btnAñadirProveedor;
     private javax.swing.JButton btnCompra;
+    private javax.swing.JButton btnEliminarCliente;
+    private javax.swing.JButton btnEliminarProveedor;
     private javax.swing.JButton btnGuardarEnArchiv;
     private javax.swing.JButton btnGuardarEnArchivo;
+    private javax.swing.JButton btnLimpiarC;
+    private javax.swing.JButton btnLimpiarV;
     private javax.swing.JButton btnRealizarVenta;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -593,21 +745,21 @@ public class MiTienda extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTFEnInventario;
+    private javax.swing.JTextField jTFCantidadProducto;
     private javax.swing.JTextField jTFId;
+    private javax.swing.JTextField jTFIdCliente;
+    private javax.swing.JTextField jTFIdProducto;
+    private javax.swing.JTextField jTFIdProveedor;
     private javax.swing.JTextField jTFNombre;
+    private javax.swing.JTextField jTFNombreProducto;
     private javax.swing.JTextField jTFPrecioCompra;
+    private javax.swing.JTextField jTFPrecioProducto;
     private javax.swing.JTextField jTFPrecioVenta;
-    private javax.swing.JTextField jTFPrecioVenta1;
+    private javax.swing.JTextField jTFStock;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable tblClientes;
+    private javax.swing.JTable tblProveedores;
+    private javax.swing.JTable tblTransaccion;
     // End of variables declaration//GEN-END:variables
 }
