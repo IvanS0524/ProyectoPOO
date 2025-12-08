@@ -219,6 +219,11 @@ public class MiTienda extends javax.swing.JFrame {
         jLabel11.setText("ID cliente");
 
         btnLimpiarV.setText("Limpiar");
+        btnLimpiarV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarVActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -698,7 +703,6 @@ public class MiTienda extends javax.swing.JFrame {
             // 5. Agregar a la tabla visual (JTable)
             DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
 
-            // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
             modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
 
             tienda.addProveedor(nuevoProv);
@@ -750,7 +754,6 @@ public class MiTienda extends javax.swing.JFrame {
             // 5. Agregar a la tabla visual (JTable)
             DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
 
-            // Nota: Agrego "Sin Tlf" porque tu clase Java no tiene teléfono, pero la tabla sí.
             modelo.addRow(new Object[]{nuevoCliente.getId(), nuevoCliente.getNombre(), nuevoCliente.getTelefono(), "300"});
 
             // 6. Mensaje de éxito
@@ -779,6 +782,15 @@ public class MiTienda extends javax.swing.JFrame {
         jTFPrecioVenta.setText("");
         jTFIdProveedor.setText("");
     }//GEN-LAST:event_btnLimpiarCActionPerformed
+
+    private void btnLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarVActionPerformed
+        // TODO add your handling code here:
+        jTFNombreProducto.setText("");
+        jTFIdProducto.setText("");
+        jTFCantidadProducto.setText("");
+        jTFPrecioProducto.setText("");
+        jTFIdCliente.setText("");
+    }//GEN-LAST:event_btnLimpiarVActionPerformed
 
     /**
      * @param args the command line arguments
