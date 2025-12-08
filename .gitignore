@@ -23,16 +23,6 @@ replay_pid*
 out/
 .idea/
 
-# Eclipse
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-
 # VS Code
 .vscode/
 
@@ -43,5 +33,3 @@ bin/
 *.iml
 *.xml
 *.mf
-/proBiblioteca/build/
-/proEmpresa/build/
