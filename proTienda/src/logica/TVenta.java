@@ -10,32 +10,38 @@ import Interfaz.ITransaccion;
  *
  * @author ivans
  */
-public class TransaccionCompra extends Transaccion implements ITransaccion{
-    private Proveedor proveedor;
+public class TVenta extends Transaccion implements ITransaccion{
+    private Cliente cliente;
 
-    public TransaccionCompra(Proveedor proveedor) {
+    public TVenta(Cliente cliente) {
         super();
-        this.proveedor = proveedor;
+        this.cliente = cliente;
     }
 
-    public Proveedor getProveedor() {
-        return proveedor;
+    public Cliente getCliente() {
+        return cliente;
     } 
         
     @Override
     public void procesarStock() {
         for (Detalle detalle : this.detalles) {
-            detalle.getProducto().setStock(detalle.getProducto().getStock() + detalle.getCantidad());
+            int stockActual = detalle.getProducto().getStock();
+            if (stockActual >= detalle.getCantidad()) {
+                detalle.getProducto().setStock(stockActual - detalle.getCantidad());
+            } else {
+                throw new IllegalArgumentException("Stock insuficiente para: " + detalle.getProducto().getNombre());
+            }
         }
     }
 
     @Override
     public String generarComprobante() {
         StringBuilder comprobante = new StringBuilder();
-        comprobante.append("=== COMPROBANTE DE COMPRA ===\n");
+        comprobante.append("=== COMPROBANTE DE VENTA ===\n");
         comprobante.append("ID Transacción: ").append(this.id).append("\n");
         comprobante.append("Fecha: ").append(this.fecha).append("\n");
-        comprobante.append("Proveedor: ").append(proveedor.getNombre()).append("\n");
+        comprobante.append("Cliente: ").append(cliente.getNombre()).append("\n");
+        comprobante.append("Teléfono: ").append(cliente.getTelefono()).append("\n");
         comprobante.append("--- Detalles ---\n");
         
         for (Detalle d : this.detalles) {

@@ -32,9 +32,9 @@ public class MiTienda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Archivo cargado correctamente");
             actualizarTablas();
         } catch (ClassNotFoundException e){
-            JOptionPane.showMessageDialog(rootPane, "Error: Clase no encontrada - " + e.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Error: Clase no encontrada: " + e.getMessage());
         } catch (IOException ex){
-            JOptionPane.showMessageDialog(rootPane, "Error al cargar archivo (puede ser la primera ejecución): " + ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Error al cargar archivo: " + ex.getMessage());
         }
 
     }
@@ -43,6 +43,16 @@ public class MiTienda extends javax.swing.JFrame {
     Archivo archivo = new Archivo("tienda.bin");
     private Transaccion ultimaTransaccion = null;
 
+    private void guardarAutomaticamente() {
+        try {
+            archivo.guardarEnArchivo(tienda);
+        } catch (IOException ex) {
+            System.err.println("Error al guardar automáticamente: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Error: Clase no encontrada al guardar: " + ex.getMessage());
+        }
+    }
+    
     private void actualizarTablas(){
         actualizarTablaInventario();
         actualizarTablaClientes();
@@ -66,14 +76,14 @@ public class MiTienda extends javax.swing.JFrame {
                 p.getNombre(),
                 p.getStock(),
                 p.getPrecioVenta()
-            });
-        }
+                });
+            }
         }
     }
     
     private void actualizarTablaClientes() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
-        modelo.setRowCount(0); // Limpiar tabla
+        modelo.setRowCount(0);
         
         if (tienda.getClientes() != null) {
             for (Cliente c : tienda.getClientes()) {
@@ -108,10 +118,10 @@ public class MiTienda extends javax.swing.JFrame {
         if (tienda.getTransacciones() != null) {
             for (Transaccion t : tienda.getTransacciones()) {
                 modelo.addRow(new Object[] {
-                    t.getFecha().toString(), // Convertir fecha a String
-                    "Detalle..",             // Podrías poner t.getDetalles().size() + " prod"
-                    "monto",
-                    t.getClass().getSimpleName() // Esto te dirá si es "Compra" o "Venta" automáticamente
+                    t.getFecha().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), // Convertir fecha a String
+                    t.getDetalles(),             
+                    t.getTotal(),
+                    t.getClass().getSimpleName()
                 });
             }
         }
@@ -591,16 +601,6 @@ public class MiTienda extends javax.swing.JFrame {
         // TODO add your handling code here:}
         imprimirComprobante();
     }//GEN-LAST:event_btnComprobanteCompraActionPerformed
-
-    private void guardarAutomaticamente() {
-        try {
-            archivo.guardarEnArchivo(tienda);
-        } catch (IOException ex) {
-            System.err.println("Error al guardar automáticamente: " + ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Error: Clase no encontrada al guardar: " + ex.getMessage());
-        }
-    }
     
     private void imprimirComprobante() {
         if (ultimaTransaccion == null) {
@@ -609,10 +609,10 @@ public class MiTienda extends javax.swing.JFrame {
         }
         
         String comprobante = "";
-        if (ultimaTransaccion instanceof TransaccionCompra) {
-            comprobante = ((TransaccionCompra) ultimaTransaccion).generarComprobante();
-        } else if (ultimaTransaccion instanceof TransaccionVenta) {
-            comprobante = ((TransaccionVenta) ultimaTransaccion).generarComprobante();
+        if (ultimaTransaccion instanceof TCompra) {
+            comprobante = ((TCompra) ultimaTransaccion).generarComprobante();
+        } else if (ultimaTransaccion instanceof TVenta) {
+            comprobante = ((TVenta) ultimaTransaccion).generarComprobante();
         }
         
         JOptionPane.showMessageDialog(rootPane, comprobante, "Comprobante", JOptionPane.INFORMATION_MESSAGE);
@@ -673,7 +673,7 @@ public class MiTienda extends javax.swing.JFrame {
             // El método se encarga de decidir si crea o actualiza y nos devuelve el producto listo.
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
 
-            TransaccionCompra compra = new TransaccionCompra(proveedorEncontrado);
+            TCompra compra = new TCompra(proveedorEncontrado);
             
             DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);
             
@@ -736,7 +736,7 @@ public class MiTienda extends javax.swing.JFrame {
                 return;
             }
             
-            TransaccionVenta venta = new TransaccionVenta(cliente);
+            TVenta venta = new TVenta(cliente);
             
             DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);
             
@@ -786,6 +786,11 @@ public class MiTienda extends javax.swing.JFrame {
             if (idStr == null || idStr.trim().isEmpty()) return;
             Integer id = Integer.parseInt(idStr);
 
+            if (tienda.getProveedorPorId(id) != null) {
+                JOptionPane.showMessageDialog(this, "Error: Ya existe un proveedor con el ID " + id, "ID Duplicado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             // 2. Pedir Nombre
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Proveedor:");
             if (nombre == null || nombre.trim().isEmpty()) {
@@ -857,7 +862,12 @@ public class MiTienda extends javax.swing.JFrame {
             String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Usuario:");
             if (idStr == null || idStr.trim().isEmpty()) return;
             Integer id = Integer.parseInt(idStr);
-
+            
+            if (tienda.getClientePorId(id) != null) {
+                JOptionPane.showMessageDialog(this, "Error: Ya existe un cliente con el ID " + id, "ID Duplicado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             // 2. Pedir Nombre
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Usuario:");
             if (nombre == null || nombre.trim().isEmpty()) {
