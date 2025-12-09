@@ -102,4 +102,50 @@ public class Tienda implements Serializable {
         return false;
     }
 
+    public void registrarCliente(int id, String nombre, String telefono) {
+        if (getClientePorId(id) != null) {
+            throw new IllegalArgumentException("Ya existe un cliente con el ID " + id);
+        }
+
+        Cliente nuevo = new Cliente(nombre, id, telefono);
+        addCliente(nuevo);
+    }
+    public void registrarProveedor(int id, String nombre, String email) {
+        if (getProveedorPorId(id) != null) {
+            throw new IllegalArgumentException("Ya existe un proveedor con el ID " + id);
+        }
+
+        Proveedor nuevo = new Proveedor(nombre, id, email);
+        addProveedor(nuevo);
+    } 
+
+    public TCompra registrarCompra(Proveedor proveedor, Producto producto, int cantidad) {
+        TCompra nuevaCompra = new TCompra(proveedor);
+
+        DetalleCompra detalle = new DetalleCompra(producto, cantidad, proveedor);
+        nuevaCompra.agregarDetalle(detalle);
+
+        nuevaCompra.calcularTotal();
+        nuevaCompra.procesarStock();
+
+        this.addTransaccion(nuevaCompra);
+        return nuevaCompra;
+    }    
+    public TVenta registrarVenta(Cliente cliente, Producto producto, int cantidad) {
+        if (producto.getStock() < cantidad) {
+            throw new IllegalArgumentException("Stock insuficiente. Disponible: " + producto.getStock());
+        }
+        TVenta nuevaVenta = new TVenta(cliente);
+
+        DetalleVenta detalle = new DetalleVenta(producto, cantidad, cliente);
+        nuevaVenta.agregarDetalle(detalle);
+
+        nuevaVenta.calcularTotal();
+        nuevaVenta.procesarStock();
+
+        this.addTransaccion(nuevaVenta);
+
+        return nuevaVenta;
+    }
+    
 }

@@ -14,14 +14,14 @@ import persistencia.Archivo;
 
 /**
  *
- * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero 02224200 - Salomon Restrepo  
+ * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero Paternina 0222420028 - Salomón Restrepo Güette 0222410050 
  */
 public class MiTienda extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiTienda.class.getName());
 
     /**
-     * Creates new form Ferreteria
+     * Creates new form Tienda
      */
     public MiTienda() {
         initComponents();
@@ -610,14 +610,9 @@ public class MiTienda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "No hay transacción para imprimir.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        String comprobante = "";
-        if (ultimaTransaccion instanceof TCompra) {
-            comprobante = ((TCompra) ultimaTransaccion).generarComprobante();
-        } else if (ultimaTransaccion instanceof TVenta) {
-            comprobante = ((TVenta) ultimaTransaccion).generarComprobante();
-        }
-        
+    
+        String comprobante = ultimaTransaccion.generarComprobante();
+    
         JOptionPane.showMessageDialog(rootPane, comprobante, "Comprobante", JOptionPane.INFORMATION_MESSAGE);
     }
     
@@ -626,199 +621,161 @@ public class MiTienda extends javax.swing.JFrame {
         Producto prod = tienda.getProductoPorId(id);
 
         if (prod != null) {
-                    // --- CASO 1: YA EXISTE (Preguntar si agregar más al stock) ---
-            String msg = "El producto  con id '"+ prod.getId() + "" + prod.getNombre() + "' ya existe.\n" +
-                         "Stock actual: " + prod.getStock() + " unidades\n\n" +
-                         "¿Deseas agregar " + cantidad + " unidades más al stock?";
+            String msg = "El producto '" + prod.getNombre() + "' (ID: " + id + ") ya existe.\n\n" +
+                         "--- CAMBIOS DETECTADOS ---\n" +
+                         "Stock Actual: " + prod.getStock() + "  >>>  Nuevo Stock: " + (prod.getStock() + cantidad) + "\n" +
+                         "Precio Compra: $" + prod.getPrecioCompra() + "  >>>  Nuevo: $" + pCompra + "\n" +
+                         "Precio Venta: $" + prod.getPrecioVenta() + "  >>>  Nuevo: $" + pVenta + "\n\n" +
+                         "¿Deseas agregar el stock y ACTUALIZAR los precios/nombre?";
 
             int opcion = JOptionPane.showConfirmDialog(rootPane, msg, "Producto Existente", 
-                                                       JOptionPane.YES_NO_OPTION);
+                                                       JOptionPane.YES_NO_OPTION, 
+                                                       JOptionPane.QUESTION_MESSAGE);
 
             if (opcion == JOptionPane.YES_OPTION) {
-                // Actualizamos datos informativos
-                prod.setPrecioCompra(pCompra);
-                prod.setPrecioVenta(pVenta);
-                prod.setNombre(nombre);
-                return prod; // Retornamos el producto para agregar stock
+                // Sobreescribimos los datos viejos con los nuevos
+                prod.setNombre(nombre);           
+                prod.setPrecioCompra(pCompra);    
+                prod.setPrecioVenta(pVenta);      
+                return prod; // Retornamos el objeto existente actualizado
             } else {
-                // Usuario canceló, lanzamos excepción para detener la transacción
-                throw new IllegalArgumentException("Operación cancelada por el usuario.");
+                // Si dice que NO, cancelamos todo para evitar inconsistencias
+                throw new IllegalArgumentException("Operación cancelada. No se modificó el producto.");
             }
+
         } else {
-            // --- CASO 2: NUEVO (Crear) ---
-            Producto nuevo = new Producto(nombre, id, cantidad, pCompra, pVenta);
+            Producto nuevo = new Producto(nombre, id, 0, pCompra, pVenta); 
             tienda.addProducto(nuevo);
 
-            JOptionPane.showMessageDialog(rootPane, "Producto nuevo registrado exitosamente.");
-            return nuevo; // Retornamos el producto nuevo
+            JOptionPane.showMessageDialog(rootPane, "Producto nuevo registrado en el sistema.");
+            return nuevo; 
         }
     }
     
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
-        //Agregar q cuando se haga una compra se cree una transacion
-        try {
-            int idProv = Integer.parseInt(jTFIdProveedor.getText()); 
-            Proveedor proveedorEncontrado = tienda.getProveedorPorId(idProv);
-            
-            if (proveedorEncontrado == null) {
-                JOptionPane.showMessageDialog(rootPane, "El proveedor con ID " + idProv + " no existe.");
-                return; // Detenemos la ejecución aquí si no hay proveedor
+        try{
+            if (jTFIdProveedor.getText().isEmpty()) {
+                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID del proveedor.");
+                 return;
+            }
+            int idProv = Integer.parseInt(jTFIdProveedor.getText());
+            Proveedor proveedor = tienda.getProveedorPorId(idProv);
+
+            if (proveedor == null) {
+                JOptionPane.showMessageDialog(rootPane, "El proveedor no existe.");
+                return;
             }
 
-            // 2. Recoger datos de las cajas de texto
             int idProd = Integer.parseInt(jTFId.getText());
-            int cant = Integer.parseInt(jTFCantidad.getText()); // Cantidad a comprar
+            int cant = Integer.parseInt(jTFCantidad.getText());
             double pCompra = Double.parseDouble(jTFPrecioCompra.getText());
             double pVenta = Double.parseDouble(jTFPrecioVenta.getText());
             String nombre = jTFNombre.getText();
 
-            // El método se encarga de decidir si crea o actualiza y nos devuelve el producto listo.
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
-            TCompra compra = new TCompra(proveedorEncontrado);           
-            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);            
-            compra.agregarDetalle(detalle);
-            
-            // Calcular el total de la transacción
-            compra.calcularTotal();
-            
-            // Procesar el stock (incrementar)
-            compra.procesarStock();
-            
-            // Agregar la transacción a la tienda
-            tienda.addTransaccion(compra);
-            
-            // Guardar la última transacción para poder imprimirla después
-            ultimaTransaccion = compra;
-            
-            // Actualizar las tablas
-            actualizarTablaInventario();
-            actualizarTablaTransacciones();
-            
-            // Guardar automáticamente en archivo
+
+            if (producto == null) return; // Si el usuario canceló
+
+            TCompra compraExitosa = tienda.registrarCompra(proveedor, producto, cant);
+
+            ultimaTransaccion = compraExitosa;
+            actualizarTablas();
             guardarAutomaticamente();
-            
-            // Mostrar comprobante
-            JOptionPane.showMessageDialog(rootPane, compra.generarComprobante(), "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);           
-            // Limpiar campos
+
+            JOptionPane.showMessageDialog(rootPane, compraExitosa.generarComprobante(), 
+                                          "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);
             btnLimpiarCActionPerformed(null);
-        } catch(IllegalArgumentException ex){
-            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos: "+ex.getMessage());
-        } catch(DateTimeParseException e){
-            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido: " + e.getMessage());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Verifique los datos numéricos.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnCompraActionPerformed
 
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
         // TODO add your handling code here:
         try {
-            int idCliente = Integer.parseInt(jTFIdCliente.getText()); 
-            Cliente cliente = tienda.getClientePorId(idCliente);
-            
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(rootPane, "El cliente con ID " + idCliente + " no existe.");
+            // Validar Cliente
+            if (jTFIdCliente.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Ingrese el ID del cliente.");
                 return;
             }
-            
+            int idCliente = Integer.parseInt(jTFIdCliente.getText());
+            Cliente cliente = tienda.getClientePorId(idCliente);
+
+            if (cliente == null) {
+                JOptionPane.showMessageDialog(rootPane, "El cliente no existe.");
+                return;
+            }
+
+            // Validar Producto
+            if (jTFIdProducto.getText().isEmpty() || jTFCantidadProducto.getText().isEmpty()) {
+                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID de producto y cantidad.");
+                 return;
+            }
             int idProd = Integer.parseInt(jTFIdProducto.getText());
             int cant = Integer.parseInt(jTFCantidadProducto.getText());
-                       
+
             Producto producto = tienda.getProductoPorId(idProd);
             if (producto == null) {
-                JOptionPane.showMessageDialog(rootPane, "El producto con ID " + idProd + " no existe en el inventario.");
+                JOptionPane.showMessageDialog(rootPane, "El producto no existe.");
                 return;
             }
-            // Verificar que hay stock suficiente
-            if (producto.getStock() < cant) {
-                JOptionPane.showMessageDialog(rootPane, "Stock insuficiente. Stock disponible: " + producto.getStock());
-                return;
-            }
-            
-            TVenta venta = new TVenta(cliente);           
-            DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);            
-            // Agregar detalle a la transacción
-            venta.agregarDetalle(detalle);
-            
-            // Calcular el total de la transacción
-            venta.calcularTotal();
-            
-            // Procesar el stock (decrementar)
-            venta.procesarStock();
-            
-            // Agregar la transacción a la tienda
-            tienda.addTransaccion(venta);
-            
-            // Guardar la última transacción para poder imprimirla después
-            ultimaTransaccion = venta;
-            
-            // Actualizar las tablas
-            actualizarTablaInventario();
-            actualizarTablaTransacciones();
-            
-            // Guardar automáticamente en archivo
+
+            // Delegamos todo el proceso a la tienda.
+            // Si no hay stock, el método registrarVenta lanzará una excepción
+            TVenta ventaExitosa = tienda.registrarVenta(cliente, producto, cant);
+
+            ultimaTransaccion = ventaExitosa;
+            actualizarTablas();
             guardarAutomaticamente();
-            
-            JOptionPane.showMessageDialog(rootPane, "Venta exitosa");
-            // Mostrar comprobante
-            JOptionPane.showMessageDialog(rootPane, venta.generarComprobante(), "Venta Realizada", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Limpiar campos
+
+            JOptionPane.showMessageDialog(rootPane, "Venta Exitosa");
+            JOptionPane.showMessageDialog(rootPane, ventaExitosa.generarComprobante(), 
+                                          "Comprobante de Venta", JOptionPane.INFORMATION_MESSAGE);
             btnLimpiarVActionPerformed(null);
-        } catch(IllegalArgumentException ex){
-            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos: " + ex.getMessage());
-        } catch(DateTimeParseException e){
-            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido: " + e.getMessage());
-        }     
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor ingrese números válidos en ID y Cantidad.");
+        } catch (IllegalArgumentException ex) {
+            // Aquí atrapamos el error de "Stock insuficiente" que lanza la Tienda
+            JOptionPane.showMessageDialog(rootPane, "No se pudo realizar la venta: " + ex.getMessage(), 
+                                          "Error de Stock", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error inesperado: " + ex.getMessage());
+        }    
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
     private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
         // TODO add your handling code here:
         //NECESITO EXPLII
         try {
-            // 1. Pedir ID (y validar que sea número)
             String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Proveedor:");
             if (idStr == null || idStr.trim().isEmpty()) return;
-            Integer id = Integer.parseInt(idStr);
+            int id = Integer.parseInt(idStr);
 
-            if (tienda.getProveedorPorId(id) != null) {
-                JOptionPane.showMessageDialog(this, "Error: Ya existe un proveedor con el ID " + id, "ID Duplicado", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            // 2. Pedir Nombre
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Proveedor:");
             if (nombre == null || nombre.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
                 return;
             }
 
-            // 3. Pedir Email
             String email = JOptionPane.showInputDialog(this, "Ingrese el Email del Proveedor:");
-            if (email == null) return; 
+            if (email == null) return;
 
-            // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
-            // Si el email está mal, el constructor o el set lanzarán la excepción
-            Proveedor nuevoProv = new Proveedor(nombre, id, email); 
+            tienda.registrarProveedor(id, nombre, email);
 
-            // 5. Agregar a la tabla visual (JTable)
-            DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
-
-            modelo.addRow(new Object[]{nuevoProv.getId(), nuevoProv.getNombre(), nuevoProv.getEmail(), "300"});
-
-            tienda.addProveedor(nuevoProv);
-            
-            archivo.guardarEnArchivo(tienda);
-            // 6. Mensaje de éxito
+            actualizarTablaProveedores();
+            guardarAutomaticamente();
             JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El ID debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
-        }
-        
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }     
     }//GEN-LAST:event_btnAñadirProveedorActionPerformed
 
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
@@ -850,48 +807,31 @@ public class MiTienda extends javax.swing.JFrame {
     private void btnAñadirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirClienteActionPerformed
         // TODO add your handling code here:
         try {
-            // 1. Pedir ID y validar que sea númer
             String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Usuario:");
-            if (idStr == null || idStr.trim().isEmpty()) return; // Validar que el campo no este vacion
-            Integer id = Integer.parseInt(idStr);
-            
-            if (tienda.getClientePorId(id) != null) {
-                JOptionPane.showMessageDialog(this, "Error: Ya existe un cliente con el ID " + id, "ID Duplicado", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            // 2. Pedir Nombre
+            if (idStr == null || idStr.trim().isEmpty()) return;
+            int id = Integer.parseInt(idStr);
+
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Usuario:");
-            if (nombre == null || nombre.trim().isEmpty()) { // Validar que el campo no este vacion
+            if (nombre == null || nombre.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
                 return;
             }
 
-            // 3. Pedir telefono
-            String tel = JOptionPane.showInputDialog(this, "Ingrese el numero del Usuario:");
-            if (tel == null) return; 
-            
-            // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
-            // Si el email está mal, el constructor o el set lanzarán la excepción
-            Cliente nuevoCliente = new Cliente(nombre, id, tel); 
+            String tel = JOptionPane.showInputDialog(this, "Ingrese el teléfono del Usuario:");
+            if (tel == null) return;
 
-            // 5. Agregar a la tabla visual (JTable)
-            DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+            tienda.registrarCliente(id, nombre, tel);
 
-            modelo.addRow(new Object[]{nuevoCliente.getId(), nuevoCliente.getNombre(), nuevoCliente.getTelefono(), "300"});
-
-            // 6. Mensaje de éxito
+            actualizarTablaClientes();
+            guardarAutomaticamente();
             JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
 
-            tienda.addCliente(nuevoCliente);
-            archivo.guardarEnArchivo(tienda);
-            
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El ID debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_btnAñadirClienteActionPerformed
 

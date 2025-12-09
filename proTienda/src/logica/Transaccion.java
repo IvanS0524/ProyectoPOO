@@ -40,6 +40,7 @@ public abstract class Transaccion implements Serializable {
     public int getId() { return id; }
     public double getTotal() { return total; }
     public List<Detalle> getDetalles() { return detalles; }
+    public abstract String generarComprobante();
     
     public void agregarDetalle(Detalle detalle) {
         this.detalles.add(detalle);
@@ -49,7 +50,6 @@ public abstract class Transaccion implements Serializable {
         this.total = total;
     }
     
-    // En el paquete logica, clase Transaccion
     public String getResumenProductos() {
         String lista = "";
 
@@ -59,10 +59,8 @@ public abstract class Transaccion implements Serializable {
             if (!lista.isEmpty()) {
                 lista += ", ";
             }
-            // Agregamos el nombre del producto
             lista += d.getProducto().getNombre();
         }
-
-        return lista; // Retorna ej: "Cemento, Arena, Pala"
+        return lista;
     }
 }
