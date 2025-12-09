@@ -18,6 +18,10 @@ public class Compra extends Transaccion implements ITransaccion{
         this.proveedor = proveedor;
     }
 
+    public Proveedor getProveedor() {
+        return proveedor;
+    } 
+        
     @Override
     public void procesarStock() {
         for (Detalle detalle : this.detalles) {
