@@ -249,7 +249,7 @@ public class MiTienda extends javax.swing.JFrame {
                     .addComponent(btnRealizarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnComprobanteVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +345,7 @@ public class MiTienda extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnComprobanteCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -395,7 +395,7 @@ public class MiTienda extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "iD", "Producto", "Stock", "Precio"
+                "iD", "Producto", "Stock", "Precio (Unidad)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -467,9 +467,9 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnAñadirCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAñadirCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -526,9 +526,9 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(btnAñadirProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAñadirProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -585,7 +585,10 @@ public class MiTienda extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -843,8 +846,8 @@ public class MiTienda extends javax.swing.JFrame {
             if (confirmacion == JOptionPane.YES_OPTION) {
                 boolean eliminado = tienda.eliminarProveedor(idProv);
                 if (eliminado) {
-                    guardarAutomaticamente();
-                    actualizarTablaProveedores(); // <--- Ojo: Actualizar tabla proveedores
+                    guardarAutomaticamente(); //Guardar en archivo
+                    actualizarTablaProveedores(); //  Actualizar tabla proveedores
                     JOptionPane.showMessageDialog(this, "Proveedor eliminado exitosamente.");
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró ningún proveedor con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -858,9 +861,9 @@ public class MiTienda extends javax.swing.JFrame {
     private void btnAñadirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirClienteActionPerformed
         // TODO add your handling code here:
         try {
-            // 1. Pedir ID (y validar que sea número)
+            // 1. Pedir ID y validar que sea númer
             String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Usuario:");
-            if (idStr == null || idStr.trim().isEmpty()) return;
+            if (idStr == null || idStr.trim().isEmpty()) return; // Validar que el campo no este vacion
             Integer id = Integer.parseInt(idStr);
             
             if (tienda.getClientePorId(id) != null) {
@@ -870,15 +873,15 @@ public class MiTienda extends javax.swing.JFrame {
             
             // 2. Pedir Nombre
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Usuario:");
-            if (nombre == null || nombre.trim().isEmpty()) {
+            if (nombre == null || nombre.trim().isEmpty()) { // Validar que el campo no este vacion
                 JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
                 return;
             }
 
-            // 3. Pedir Email
-            String tel = JOptionPane.showInputDialog(this, "Ingrese el Email del Usuario:");
+            // 3. Pedir telefono
+            String tel = JOptionPane.showInputDialog(this, "Ingrese el numero del Usuario:");
             if (tel == null) return; 
-
+            
             // 4. Crear el objeto (Aquí se activa TU validación de la clase Proveedor)
             // Si el email está mal, el constructor o el set lanzarán la excepción
             Cliente nuevoCliente = new Cliente(nombre, id, tel); 
@@ -897,8 +900,6 @@ public class MiTienda extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // ESTA PARTE CAPTURA TU VALIDACIÓN DE EMAIL
-            // Mostrará: "Formato de correo inválido: ..." o "El email no puede ser nulo..."
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
