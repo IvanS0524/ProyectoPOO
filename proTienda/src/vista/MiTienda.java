@@ -117,9 +117,10 @@ public class MiTienda extends javax.swing.JFrame {
         
         if (tienda.getTransacciones() != null) {
             for (Transaccion t : tienda.getTransacciones()) {
+                String resumen = t.getDetalles().size() + " producto";
                 modelo.addRow(new Object[] {
                     t.getFecha().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), // Convertir fecha a String
-                    t.getDetalles(),             
+                    resumen,             
                     t.getTotal(),
                     t.getClass().getSimpleName()
                 });
@@ -675,11 +676,8 @@ public class MiTienda extends javax.swing.JFrame {
 
             // El método se encarga de decidir si crea o actualiza y nos devuelve el producto listo.
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
-
-            TCompra compra = new TCompra(proveedorEncontrado);
-            
-            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);
-            
+            TCompra compra = new TCompra(proveedorEncontrado);           
+            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);            
             compra.agregarDetalle(detalle);
             
             // Calcular el total de la transacción
@@ -702,15 +700,13 @@ public class MiTienda extends javax.swing.JFrame {
             guardarAutomaticamente();
             
             // Mostrar comprobante
-            JOptionPane.showMessageDialog(rootPane, compra.generarComprobante(), "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);
-            
+            JOptionPane.showMessageDialog(rootPane, compra.generarComprobante(), "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);           
             // Limpiar campos
             btnLimpiarCActionPerformed(null);
-            JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
-            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos "+ex);
+            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos: "+ex.getMessage());
         } catch(DateTimeParseException e){
-            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido " + e);
+            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido: " + e.getMessage());
         }
     }//GEN-LAST:event_btnCompraActionPerformed
 
@@ -739,10 +735,8 @@ public class MiTienda extends javax.swing.JFrame {
                 return;
             }
             
-            TVenta venta = new TVenta(cliente);
-            
-            DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);
-            
+            TVenta venta = new TVenta(cliente);           
+            DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);            
             // Agregar detalle a la transacción
             venta.agregarDetalle(detalle);
             
@@ -770,14 +764,11 @@ public class MiTienda extends javax.swing.JFrame {
             
             // Limpiar campos
             btnLimpiarVActionPerformed(null);
-            
-            JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
-            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos "+ex);
+            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos: " + ex.getMessage());
         } catch(DateTimeParseException e){
-            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido " + e);
-        }
-        
+            JOptionPane.showMessageDialog(rootPane, "Formato de fecha invalido: " + e.getMessage());
+        }     
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
     private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
@@ -823,8 +814,6 @@ public class MiTienda extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            // ESTA PARTE CAPTURA TU VALIDACIÓN DE EMAIL
-            // Mostrará: "Formato de correo inválido: ..." o "El email no puede ser nulo..."
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
