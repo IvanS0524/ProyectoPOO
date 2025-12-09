@@ -10,10 +10,10 @@ import Interfaz.ITransaccion;
  *
  * @author ivans
  */
-public class Compra extends Transaccion implements ITransaccion{
+public class TransaccionCompra extends Transaccion implements ITransaccion{
     private Proveedor proveedor;
 
-    public Compra(Proveedor proveedor) {
+    public TransaccionCompra(Proveedor proveedor) {
         super();
         this.proveedor = proveedor;
     }

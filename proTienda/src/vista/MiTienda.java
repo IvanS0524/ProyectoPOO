@@ -609,10 +609,10 @@ public class MiTienda extends javax.swing.JFrame {
         }
         
         String comprobante = "";
-        if (ultimaTransaccion instanceof Compra) {
-            comprobante = ((Compra) ultimaTransaccion).generarComprobante();
-        } else if (ultimaTransaccion instanceof Venta) {
-            comprobante = ((Venta) ultimaTransaccion).generarComprobante();
+        if (ultimaTransaccion instanceof TransaccionCompra) {
+            comprobante = ((TransaccionCompra) ultimaTransaccion).generarComprobante();
+        } else if (ultimaTransaccion instanceof TransaccionVenta) {
+            comprobante = ((TransaccionVenta) ultimaTransaccion).generarComprobante();
         }
         
         JOptionPane.showMessageDialog(rootPane, comprobante, "Comprobante", JOptionPane.INFORMATION_MESSAGE);
@@ -670,15 +670,13 @@ public class MiTienda extends javax.swing.JFrame {
             double pVenta = Double.parseDouble(jTFPrecioVenta.getText());
             String nombre = jTFNombre.getText();
 
-            // 3. PROCESAR PRODUCTO (Aquí llamamos al método nuevo)
             // El método se encarga de decidir si crea o actualiza y nos devuelve el producto listo.
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
 
-            Compra compra = new Compra(proveedorEncontrado);
+            TransaccionCompra compra = new TransaccionCompra(proveedorEncontrado);
             
             DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);
             
-                        // Agregar detalle a la transacción
             compra.agregarDetalle(detalle);
             
             // Calcular el total de la transacción
@@ -738,7 +736,7 @@ public class MiTienda extends javax.swing.JFrame {
                 return;
             }
             
-            Venta venta = new Venta(cliente);
+            TransaccionVenta venta = new TransaccionVenta(cliente);
             
             DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);
             
