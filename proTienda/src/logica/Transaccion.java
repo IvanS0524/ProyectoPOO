@@ -41,6 +41,7 @@ public abstract class Transaccion implements Serializable {
     public double getTotal() { return total; }
     public List<Detalle> getDetalles() { return detalles; }
     public abstract String generarComprobante();
+    public abstract void procesarStock();
     
     public void agregarDetalle(Detalle detalle) {
         this.detalles.add(detalle);
