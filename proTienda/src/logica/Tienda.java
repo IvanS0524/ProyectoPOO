@@ -9,6 +9,11 @@ public class Tienda implements Serializable {
     private List<Cliente> clientes;
     private List<Proveedor> proveedores;
     private List<Transaccion> transacciones;
+    
+    private List<DetalleCompra> carritoTemporalCompra = new ArrayList<>();
+    private Proveedor proveedorEnCarrito = null;
+    private List<DetalleVenta> carritoTemporalVenta = new ArrayList<>();
+    private Cliente clienteEnCarrito = null;
 
     public Tienda() {
         this.productos = new ArrayList<>();
@@ -61,7 +66,6 @@ public class Tienda implements Serializable {
         }
         return null;
     }
-
     public Cliente getClientePorId(int id){
         for (Cliente c : clientes) {
             if (c != null && c.getId() == id) {
@@ -70,7 +74,6 @@ public class Tienda implements Serializable {
         }
         return null;
     }
-
     public Proveedor getProveedorPorId(int id){
         for (Proveedor p : proveedores) {
             if (p != null && p.getId() == id) {
@@ -78,8 +81,7 @@ public class Tienda implements Serializable {
             }
         }
         return null;
-    }
-    
+    }  
     public boolean eliminarCliente(int id) {
         // Buscamos al cliente primero
         Cliente clienteBorrar = getClientePorId(id);
@@ -91,7 +93,6 @@ public class Tienda implements Serializable {
         }
         return false; // No se encontró ese ID
     }
-
     public boolean eliminarProveedor(int id) {
         Proveedor proveedorBorrar = getProveedorPorId(id);
         
@@ -101,7 +102,6 @@ public class Tienda implements Serializable {
         }
         return false;
     }
-
     public void registrarCliente(int id, String nombre, String telefono) {
         if (getClientePorId(id) != null) {
             throw new IllegalArgumentException("Ya existe un cliente con el ID " + id);
@@ -146,12 +146,82 @@ public class Tienda implements Serializable {
         this.addTransaccion(nuevaVenta);
 
         return nuevaVenta;
-    }
-    
+    }   
     public void procesarTransaccion(Transaccion t) {
         t.calcularTotal();
         t.procesarStock();
         this.addTransaccion(t);
     }
     
+    //LOGICA CARRITO COMPRA
+    public void agregarAlCarritoCompra(Producto p, int cantidad, Proveedor proveedor) {
+        //  Validar Regla: No mezclar proveedores
+        if (proveedorEnCarrito != null && !proveedorEnCarrito.getId().equals(proveedor.getId())) {
+            throw new IllegalArgumentException("No puede mezclar proveedores. Termine la compra actual o limpie el carrito.");
+        }
+        // ijar proveedor
+        if (proveedorEnCarrito == null) proveedorEnCarrito = proveedor;
+
+        // 3. Agregar
+        DetalleCompra detalle = new DetalleCompra(p, cantidad, proveedorEnCarrito);
+        carritoTemporalCompra.add(detalle);
+    }
+
+    public TCompra confirmarCarritoCompra() {
+        if (carritoTemporalCompra.isEmpty()) throw new IllegalStateException("El carrito está vacío.");
+
+        TCompra compra = new TCompra(proveedorEnCarrito);
+        for (DetalleCompra d : carritoTemporalCompra) compra.agregarDetalle(d);
+        
+        procesarTransaccion(compra);
+        limpiarCarritoCompra();
+        return compra;
+    }
+
+    public void limpiarCarritoCompra() {
+        carritoTemporalCompra.clear();
+        proveedorEnCarrito = null;
+    }
+    
+    public int getItemsCarritoCompra() { return carritoTemporalCompra.size(); }
+
+    //LÓGICA DEL CARRITO DE VENTAS
+    public void agregarAlCarritoVenta(Producto p, int cantidad, Cliente cliente) {
+        // 1. Validar Regla: No mezclar clientes
+        if (clienteEnCarrito != null && !clienteEnCarrito.getId().equals(cliente.getId())) {
+            throw new IllegalArgumentException("No puede mezclar clientes. Termine la venta actual o limpie el carrito.");
+        }
+
+        // VALIDAR STOCK Sumando lo que ya hay en el carrito
+        int cantidadEnCarrito = 0;
+        for (DetalleVenta d : carritoTemporalVenta) {
+            if (d.getProducto().getId().equals(p.getId())) {
+                cantidadEnCarrito += d.getCantidad();
+            }
+        }
+        
+        if (p.getStock() < (cantidad + cantidadEnCarrito)) {
+            throw new IllegalArgumentException("Stock insuficiente. Disponible: " + p.getStock() + 
+                                               ". (En carrito: " + cantidadEnCarrito + ")");
+        }
+
+        if (clienteEnCarrito == null) clienteEnCarrito = cliente;
+        DetalleVenta detalle = new DetalleVenta(p, cantidad, clienteEnCarrito);
+        carritoTemporalVenta.add(detalle);
+    }
+    public TVenta confirmarCarritoVenta() {
+        if (carritoTemporalVenta.isEmpty()) throw new IllegalStateException("El carrito está vacío.");
+
+        TVenta venta = new TVenta(clienteEnCarrito);
+        for (DetalleVenta d : carritoTemporalVenta) venta.agregarDetalle(d);
+        
+        procesarTransaccion(venta);
+        limpiarCarritoVenta();
+        return venta;
+    }
+    public void limpiarCarritoVenta() {
+        carritoTemporalVenta.clear();
+        clienteEnCarrito = null;
+    }
+    public int getItemsCarritoVenta() { return carritoTemporalVenta.size(); }
 }

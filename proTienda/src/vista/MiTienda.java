@@ -43,10 +43,6 @@ public class MiTienda extends javax.swing.JFrame {
     Archivo archivo = new Archivo("tienda.bin");
     private Transaccion ultimaTransaccion = null;
     
-    private ArrayList<DetalleCompra> carritoCompras = new ArrayList();
-    private Proveedor proveedorActualCompra = null;
-    private ArrayList<DetalleVenta> carritoVentas = new ArrayList();
-    private Cliente clienteActualVenta = null;
     private void guardarAutomaticamente() {
         try {
             archivo.guardarEnArchivo(tienda);
@@ -66,13 +62,13 @@ public class MiTienda extends javax.swing.JFrame {
     
     // Método auxiliar para rellenar la tabla
     private void actualizarTablaInventario() {
-        // 1. Obtenemos el modelo de tu jTable1
+        // Obtenemos el modelo de tu jTable1
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         
-        // 2. Limpiamos la tabla para evitar duplicados si recargamos
+        // Limpiamos la tabla para evitar duplicados si recargamos
         modelo.setRowCount(0);
         
-        // 3. Recorremos la lista de productos
+        // Recorremos la lista de productos
         if (tienda.getProductos() != null) {
             for (Producto p : tienda.getProductos()) {
             modelo.addRow(new Object[] {
@@ -649,7 +645,6 @@ public class MiTienda extends javax.swing.JFrame {
     }
     
     private Producto gestionarProducto(int id, String nombre, int cantidad, double pCompra, double pVenta) {
-    // Usamos el método que YA tienes en tu clase Tienda
         Producto prod = tienda.getProductoPorId(id);
 
         if (prod != null) {
@@ -671,7 +666,7 @@ public class MiTienda extends javax.swing.JFrame {
                 prod.setPrecioVenta(pVenta);      
                 return prod; // Retornamos el objeto existente actualizado
             } else {
-                // Si dice que NO, cancelamos todo para evitar inconsistencias
+                // Si dice que no, cancelamos 
                 throw new IllegalArgumentException("Operación cancelada. No se modificó el producto.");
             }
 
@@ -687,69 +682,38 @@ public class MiTienda extends javax.swing.JFrame {
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
         try {
-            // 1. VALIDAR QUE HAYA ALGO EN EL CARRITO
-            if (carritoCompras.isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "El carrito está vacío. Agregue productos primero.");
-                return;
-            }
+            TCompra compraFinal = tienda.confirmarCarritoCompra(); // ¡Una sola línea lógica!
 
-            // 2. CREAR LA TRANSACCIÓN (FACTURA)
-            TCompra compraFinal = new TCompra(proveedorActualCompra);
-
-            // Pasamos todos los detalles del carrito a la factura
-            for (DetalleCompra det : carritoCompras) {
-                compraFinal.agregarDetalle(det);
-            }
-
-            // 3. DELEGAR A LA TIENDA (Procesar stock y guardar)
-            // Usaremos un método nuevo en Tienda para procesar transacciones ya armadas
-            tienda.procesarTransaccion(compraFinal);
-
-            // 4. FINALIZAR
             ultimaTransaccion = compraFinal;
             actualizarTablas();
             guardarAutomaticamente();
+            JOptionPane.showMessageDialog(rootPane, compraFinal.generarComprobante(), "Exito", JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(rootPane, compraFinal.generarComprobante(), "Compra Finalizada", JOptionPane.INFORMATION_MESSAGE);
+            btnLimpiarCActionPerformed(null); // Reset visual
 
-            // 5. RESETEAR CARRITO (Importante)
-            carritoCompras.clear();
-            proveedorActualCompra = null;
-            jTFIdProveedor.setEditable(true); // Desbloqueamos el campo
-            btnLimpiarCActionPerformed(null); // Limpiamos todo visualmente
-
+        } catch (IllegalStateException e) { // Captura carrito vacío
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Error al procesar la compra: " + e.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_btnCompraActionPerformed
 
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
         // TODO add your handling code here:
         try {
-            if (carritoVentas.isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "El carrito de ventas está vacío. Agregue productos primero.", "Atención", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            TVenta ventaFinal = new TVenta(clienteActualVenta);
-
-            for (DetalleVenta det : carritoVentas) {
-                ventaFinal.agregarDetalle(det);
-            }
-
-            ventaFinal.calcularTotal();
-            ventaFinal.procesarStock(); 
-
-            tienda.addTransaccion(ventaFinal);
+            TVenta ventaFinal = tienda.confirmarCarritoVenta();
 
             ultimaTransaccion = ventaFinal;
             actualizarTablas();    
             guardarAutomaticamente();  
+            JOptionPane.showMessageDialog(rootPane, ventaFinal.generarComprobante(), "Venta Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(rootPane, "Venta registrada con éxito.");
-            JOptionPane.showMessageDialog(rootPane, ventaFinal.generarComprobante(), "Factura de Venta", JOptionPane.INFORMATION_MESSAGE);
+            btnLimpiarVActionPerformed(null);
+
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Error al procesar la venta: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Error crítico: " + e.getMessage());
         }
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
@@ -841,21 +805,23 @@ public class MiTienda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAñadirClienteActionPerformed
 
     private void btnLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarVActionPerformed
-
-        if (!carritoVentas.isEmpty()) {
+        // TODO add your handling code here:
+        if (tienda.getItemsCarritoVenta() > 0) {
             int opt = JOptionPane.showConfirmDialog(rootPane, 
-                "Hay productos en el carrito. ¿Seguro desea cancelar la venta?", 
-                "Limpiar", JOptionPane.YES_NO_OPTION);
-            if (opt != JOptionPane.YES_OPTION) return;
+                "Hay productos en el carrito de ventas. ¿Seguro desea cancelar la venta y limpiar todo?", 
+                "Cancelar Venta", 
+                JOptionPane.YES_NO_OPTION);
+
+            if (opt != JOptionPane.YES_OPTION) {
+                return;
+            }
         }
+        tienda.limpiarCarritoVenta();
 
         jTFIdCliente.setText("");
         jTFIdProducto.setText("");
         jTFCantidadProducto.setText("");
-
-        carritoVentas.clear();
-        clienteActualVenta = null;
-        jTFIdCliente.setEditable(true); // Desbloquear
+        jTFIdCliente.setEditable(true);
     }//GEN-LAST:event_btnLimpiarVActionPerformed
 
     private void btnComprobanteVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprobanteVentaActionPerformed
@@ -894,26 +860,13 @@ public class MiTienda extends javax.swing.JFrame {
     private void btnAgregarCarritoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoCompraActionPerformed
         // TODO add your handling code here:
         try {
-            if (jTFIdProveedor.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "Ingrese ID del proveedor.");
-                return;
-            }
+            // Validación básica de campos vacíos
+            if (jTFIdProveedor.getText().isEmpty()) { JOptionPane.showMessageDialog(rootPane, "Ingrese ID proveedor"); return; }
+
             int idProv = Integer.parseInt(jTFIdProveedor.getText());
-            Proveedor proveedorInput = tienda.getProveedorPorId(idProv);
+            Proveedor proveedor = tienda.getProveedorPorId(idProv);
+            if (proveedor == null) { JOptionPane.showMessageDialog(rootPane, "Proveedor no existe"); return; }
 
-            if (proveedorInput == null) {
-                JOptionPane.showMessageDialog(rootPane, "El proveedor no existe.");
-                return;
-            }
-
-            if (proveedorActualCompra == null) {
-                proveedorActualCompra = proveedorInput;
-                jTFIdProveedor.setEditable(false); // Bloqueamos el campo para evitar errores visuales
-            } else if (proveedorActualCompra.getId() != idProv) {
-                JOptionPane.showMessageDialog(rootPane, "No puede mezclar proveedores en una misma compra.\nTermine la compra actual o limpie el carrito.");
-                return;
-            }
-            
             int idProd = Integer.parseInt(jTFId.getText());
             int cant = Integer.parseInt(jTFCantidad.getText());
             double pCompra = Double.parseDouble(jTFPrecioCompra.getText());
@@ -921,117 +874,75 @@ public class MiTienda extends javax.swing.JFrame {
             String nombre = jTFNombre.getText();
 
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
+            if (producto == null) return;
 
-            if (producto == null) return; // Si canceló
+            // La tienda se encarga de validar reglas y guardar
+            tienda.agregarAlCarritoCompra(producto, cant, proveedor);
 
-            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorActualCompra);
-            carritoCompras.add(detalle);
+            JOptionPane.showMessageDialog(rootPane, "Agregado. Items: " + tienda.getItemsCarritoCompra());
 
-            JOptionPane.showMessageDialog(rootPane, "Producto agregado al carrito.\nItems actuales: " + carritoCompras.size());
+            jTFIdProveedor.setEditable(false); // Feedback visual
+            // Limpiar campos
+            jTFId.setText(""); jTFNombre.setText(""); jTFCantidad.setText(""); 
+            jTFPrecioCompra.setText(""); jTFPrecioVenta.setText("");
 
-            jTFId.setText("");
-            jTFNombre.setText("");
-            jTFCantidad.setText("");
-            jTFPrecioCompra.setText("");
-            jTFPrecioVenta.setText("");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(rootPane, "Verifique los números.");
+            JOptionPane.showMessageDialog(rootPane, "Datos numéricos inválidos");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Error: " + e.getMessage());
         }
-
     }//GEN-LAST:event_btnAgregarCarritoCompraActionPerformed
 
     private void btnLimpiarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCActionPerformed
         // TODO add your handling code here:
-        if (!carritoCompras.isEmpty()) {
-            int confirm = JOptionPane.showConfirmDialog(rootPane, 
-                "Tienes productos en el carrito. ¿Seguro que quieres limpiar todo?",
-                "Limpiar Carrito", 
-                JOptionPane.YES_NO_OPTION);
-
-            if (confirm != JOptionPane.YES_OPTION) {
-                return; 
-            }
+        if (tienda.getItemsCarritoCompra() > 0) { // Preguntamos a la tienda
+            int cf = JOptionPane.showConfirmDialog(rootPane, "¿Limpiar carrito?", "Confirma", JOptionPane.YES_NO_OPTION);
+            if (cf != JOptionPane.YES_OPTION) return;
         }
-        
-        jTFNombre.setText("");
-        jTFId.setText("");
-        jTFCantidad.setText("");
-        jTFPrecioCompra.setText("");
-        jTFPrecioVenta.setText("");
-        jTFIdProveedor.setText("");
-        
-        carritoCompras.clear();
-        proveedorActualCompra = null;
-        jTFIdProveedor.setEditable(true);
 
+        tienda.limpiarCarritoCompra(); // Limpieza lógica
+
+        // Limpieza visual
+        jTFIdProveedor.setEditable(true);
+        jTFIdProveedor.setText("");
+        jTFNombre.setText(""); jTFId.setText(""); jTFCantidad.setText(""); 
+        jTFPrecioCompra.setText(""); jTFPrecioVenta.setText("");
     }//GEN-LAST:event_btnLimpiarCActionPerformed
 
     private void btnAgregarCarritoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoVentaActionPerformed
         // TODO add your handling code here:
         try {
-            if (jTFIdCliente.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "Ingrese el ID del cliente.");
-                return;
-            }
-            int idCliente = Integer.parseInt(jTFIdCliente.getText());
-            Cliente clienteInput = tienda.getClientePorId(idCliente);
-            if (clienteInput == null) {
-                JOptionPane.showMessageDialog(rootPane, "El cliente no existe.");
-                return;
-            }
+            if (jTFIdCliente.getText().isEmpty()) { JOptionPane.showMessageDialog(rootPane, "ID Cliente requerido"); return; }
 
-            if (clienteActualVenta == null) {
-                clienteActualVenta = clienteInput;
-                jTFIdCliente.setEditable(false); // Bloquear campo
-            } else if (!clienteActualVenta.getId().equals(idCliente)) {
-                JOptionPane.showMessageDialog(rootPane, "No puede mezclar clientes en una misma venta.\nTermine la venta actual o limpie.");
-                return;
-            }
+            int idCliente = Integer.parseInt(jTFIdCliente.getText());
+            Cliente cliente = tienda.getClientePorId(idCliente);
+            if (cliente == null) { JOptionPane.showMessageDialog(rootPane, "Cliente no existe"); return; }
+
             if (jTFIdProducto.getText().isEmpty() || jTFCantidadProducto.getText().isEmpty()) {
-                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID producto y cantidad.");
-                 return;
+                 JOptionPane.showMessageDialog(rootPane, "Datos incompletos"); return;
             }
             int idProd = Integer.parseInt(jTFIdProducto.getText());
             int cant = Integer.parseInt(jTFCantidadProducto.getText());
-
             Producto producto = tienda.getProductoPorId(idProd);
+            if (producto == null) { JOptionPane.showMessageDialog(rootPane, "Producto no existe"); return; }
 
-            if (producto == null) {
-                JOptionPane.showMessageDialog(rootPane, "El producto no existe en el inventario.");
-                return;
-            }
+            // La tienda valida el STOCK acumulado y el cliente
+            tienda.agregarAlCarritoVenta(producto, cant, cliente);
 
-            int cantidadYaEnCarrito = 0;
-            for (DetalleVenta d : carritoVentas) {
-                if (d.getProducto().getId().equals(idProd)) {
-                    cantidadYaEnCarrito += d.getCantidad();
-                }
-            }
-            int totalRequerido = cant + cantidadYaEnCarrito;
-            if (producto.getStock() < totalRequerido) {
-                JOptionPane.showMessageDialog(rootPane, 
-                    "Stock Insuficiente.\n" +
-                    "Stock Bodega: " + producto.getStock() + "\n" +
-                    "Ya en carrito: " + cantidadYaEnCarrito + "\n" +
-                    "Solicitado total: " + totalRequerido, 
-                    "Error de Stock", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            JOptionPane.showMessageDialog(rootPane, "Agregado. Items: " + tienda.getItemsCarritoVenta());
 
-            // AGREGAR AL CARRITO
-            DetalleVenta detalle = new DetalleVenta(producto, cant, clienteActualVenta);
-            carritoVentas.add(detalle);
+            jTFIdCliente.setEditable(false);
+            jTFIdProducto.setText(""); jTFCantidadProducto.setText("");
 
-            JOptionPane.showMessageDialog(rootPane, "Producto agregado.\nItems en carrito: " + carritoVentas.size());
-
-            jTFIdProducto.setText("");
-            jTFCantidadProducto.setText("");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(rootPane, "Verifique que los campos numéricos sean correctos.");
+            JOptionPane.showMessageDialog(rootPane, "Verifique números");
+        } catch (IllegalArgumentException e) {
+            // Aquí cae el error de STOCK INSUFICIENTE o Cliente Mezclado
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error: " + e.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_btnAgregarCarritoVentaActionPerformed
 
