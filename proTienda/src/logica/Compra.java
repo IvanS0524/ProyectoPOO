@@ -20,11 +20,27 @@ public class Compra extends Transaccion implements ITransaccion{
 
     @Override
     public void procesarStock() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (Detalle detalle : this.detalles) {
+            detalle.getProducto().setStock(detalle.getProducto().getStock() + detalle.getCantidad());
+        }
     }
 
     @Override
     public String generarComprobante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder comprobante = new StringBuilder();
+        comprobante.append("=== COMPROBANTE DE COMPRA ===\n");
+        comprobante.append("ID Transacción: ").append(this.id).append("\n");
+        comprobante.append("Fecha: ").append(this.fecha).append("\n");
+        comprobante.append("Proveedor: ").append(proveedor.getNombre()).append("\n");
+        comprobante.append("--- Detalles ---\n");
+        
+        for (Detalle d : this.detalles) {
+            comprobante.append("Producto: ").append(d.getProducto().getNombre())
+                    .append(" | Cantidad: ").append(d.getCantidad())
+                    .append(" | Subtotal: $").append(d.calcularSubtotal()).append("\n");
+        }
+        
+        comprobante.append("--- TOTAL: $").append(this.total).append(" ---\n");
+        return comprobante.toString();
     }
 }
