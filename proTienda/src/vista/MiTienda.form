@@ -98,7 +98,7 @@
                       <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnRealizarVenta" max="32767" attributes="0"/>
-                          <Component id="btnGuardarEnArchiv" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnComprobanteVenta" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnLimpiarV" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="72" max="32767" attributes="0"/>
@@ -129,7 +129,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="btnGuardarEnArchiv" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnComprobanteVenta" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnLimpiarV" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -162,10 +162,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRealizarVentaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnGuardarEnArchiv">
+            <Component class="javax.swing.JButton" name="btnComprobanteVenta">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Imprimir comprobante"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComprobanteVentaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTFCantidadProducto">
             </Component>
@@ -237,7 +240,7 @@
                       </Group>
                       <EmptySpace pref="71" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnGuardarEnArchivo" max="32767" attributes="0"/>
+                          <Component id="btnComprobanteCompra" max="32767" attributes="0"/>
                           <Component id="btnLimpiarC" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnCompra" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -263,7 +266,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTFCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnGuardarEnArchivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnComprobanteCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -330,12 +333,12 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTFPrecioVenta">
             </Component>
-            <Component class="javax.swing.JButton" name="btnGuardarEnArchivo">
+            <Component class="javax.swing.JButton" name="btnComprobanteCompra">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Imprimir Comprobante"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarEnArchivoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComprobanteCompraActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
@@ -395,10 +398,10 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="iD" type="java.lang.Object"/>
-                        <Column editable="true" title="Producto" type="java.lang.Object"/>
-                        <Column editable="true" title="Stock" type="java.lang.Object"/>
-                        <Column editable="true" title="Precio" type="java.lang.Object"/>
+                        <Column editable="false" title="iD" type="java.lang.Object"/>
+                        <Column editable="false" title="Producto" type="java.lang.Object"/>
+                        <Column editable="false" title="Stock" type="java.lang.Object"/>
+                        <Column editable="false" title="Precio" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -451,11 +454,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="btnAñadirCliente" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnEliminarCliente" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton1" max="32767" attributes="0"/>
+                              <Component id="btnAñadirCliente" min="-2" pref="213" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnEliminarCliente" min="-2" pref="213" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -470,7 +471,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnAñadirCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEliminarCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="58" max="32767" attributes="0"/>
                   </Group>
@@ -488,20 +488,14 @@
                 <Component class="javax.swing.JTable" name="tblClientes">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="0">
+                      <Table columnCount="3" rowCount="0">
                         <Column editable="true" title="ID" type="java.lang.Object"/>
-                        <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Telefono" type="java.lang.Object"/>
+                        <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                        <Column editable="false" title="Telefono" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -538,11 +532,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Guardar Datos"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarClienteActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -561,13 +553,11 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnAñadirProveedor" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                              <Component id="btnEliminarProveedor" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton2" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="btnAñadirProveedor" min="-2" pref="207" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnEliminarProveedor" min="-2" pref="208" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -582,7 +572,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnEliminarProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAñadirProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="59" max="32767" attributes="0"/>
                   </Group>
@@ -600,20 +589,14 @@
                 <Component class="javax.swing.JTable" name="tblProveedores">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="0">
-                        <Column editable="true" title="ID" type="java.lang.Object"/>
-                        <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                        <Column editable="true" title="Mail" type="java.lang.Object"/>
-                        <Column editable="true" title="Telefono" type="java.lang.Object"/>
+                      <Table columnCount="3" rowCount="0">
+                        <Column editable="false" title="ID" type="java.lang.Object"/>
+                        <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                        <Column editable="false" title="Mail" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -654,11 +637,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnA&#xf1;adirProveedorActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Guardar Datos"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel7">
@@ -698,10 +676,10 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Fecha" type="java.lang.Object"/>
-                        <Column editable="true" title="Producto" type="java.lang.Object"/>
-                        <Column editable="true" title="Total" type="java.lang.Object"/>
-                        <Column editable="true" title="Tipo" type="java.lang.Object"/>
+                        <Column editable="false" title="Fecha" type="java.lang.Object"/>
+                        <Column editable="false" title="Producto" type="java.lang.Object"/>
+                        <Column editable="false" title="Total" type="java.lang.Object"/>
+                        <Column editable="false" title="Tipo" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

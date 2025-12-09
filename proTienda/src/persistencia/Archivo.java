@@ -5,6 +5,10 @@ import logica.Tienda;
 
 import java.io.*;
 
+/**
+ *
+ * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero 02224200 - Salomon Restrepo  
+ */
 public class Archivo implements IArchivo {
     private String nombreArchivo;
 
