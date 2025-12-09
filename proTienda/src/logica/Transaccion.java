@@ -48,4 +48,21 @@ public abstract class Transaccion implements Serializable {
     public void setTotal(double total) {
         this.total = total;
     }
+    
+    // En el paquete logica, clase Transaccion
+    public String getResumenProductos() {
+        String lista = "";
+
+        // Recorremos los detalles de esta transacción
+        for (Detalle d : detalles) {
+            // Si ya hay algo escrito, ponemos una coma para separar
+            if (!lista.isEmpty()) {
+                lista += ", ";
+            }
+            // Agregamos el nombre del producto
+            lista += d.getProducto().getNombre();
+        }
+
+        return lista; // Retorna ej: "Cemento, Arena, Pala"
+    }
 }

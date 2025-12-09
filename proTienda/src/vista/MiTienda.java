@@ -117,10 +117,9 @@ public class MiTienda extends javax.swing.JFrame {
         
         if (tienda.getTransacciones() != null) {
             for (Transaccion t : tienda.getTransacciones()) {
-                String resumen = t.getDetalles().size() + " producto";
                 modelo.addRow(new Object[] {
                     t.getFecha().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), // Convertir fecha a String
-                    resumen,             
+                    t.getResumenProductos(),             
                     t.getTotal(),
                     t.getClass().getSimpleName()
                 });
@@ -759,6 +758,7 @@ public class MiTienda extends javax.swing.JFrame {
             // Guardar automáticamente en archivo
             guardarAutomaticamente();
             
+            JOptionPane.showMessageDialog(rootPane, "Venta exitosa");
             // Mostrar comprobante
             JOptionPane.showMessageDialog(rootPane, venta.generarComprobante(), "Venta Realizada", JOptionPane.INFORMATION_MESSAGE);
             
