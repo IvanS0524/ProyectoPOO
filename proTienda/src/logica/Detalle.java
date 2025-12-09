@@ -19,7 +19,6 @@ public abstract class Detalle implements Serializable{
         this.cantidad = cantidad;
     }
 
-    // Método abstracto: cada hijo define cómo calcular su subtotal
     public abstract double calcularSubtotal();
     
     public Producto getProducto() { return producto; }

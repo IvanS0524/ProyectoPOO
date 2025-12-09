@@ -9,11 +9,15 @@ package logica;
  * @author ivans
  */
 public class DetalleCompra extends Detalle{
-    private Proveedor provedor;
+    private Proveedor proveedor;
     
     public DetalleCompra(Producto producto, int cantidad, Proveedor provedor) {
         super(producto, cantidad);
-        this.provedor = provedor;
+        this.proveedor = proveedor;
+    }
+    
+    public Proveedor getProveedor(){
+        return proveedor;
     }
 
     @Override

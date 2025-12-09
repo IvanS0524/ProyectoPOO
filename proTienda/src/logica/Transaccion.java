@@ -18,11 +18,13 @@ public abstract class Transaccion implements Serializable {
     protected List<Detalle> detalles;
     protected int id;
     protected double total;
+    private static int contadorId = 1;
     
     public Transaccion(){
         this.fecha = LocalDateTime.now();
         this.detalles = new ArrayList<>();
         this.total = 0;
+        this.id = contadorId++;
     }
     
     public double calcularTotal() {
@@ -35,4 +37,15 @@ public abstract class Transaccion implements Serializable {
     }
     
     public LocalDateTime getFecha() { return fecha; }
+    public int getId() { return id; }
+    public double getTotal() { return total; }
+    public List<Detalle> getDetalles() { return detalles; }
+    
+    public void agregarDetalle(Detalle detalle) {
+        this.detalles.add(detalle);
+    }
+    
+    public void setTotal(double total) {
+        this.total = total;
+    }
 }
