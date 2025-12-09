@@ -82,21 +82,21 @@ public class Tienda implements Serializable {
     
     public boolean eliminarCliente(int id) {
         // Buscamos al cliente primero
-        Cliente clienteAborrar = getClientePorId(id);
+        Cliente clienteBorrar = getClientePorId(id);
         
         // Si existe, lo borramos de la lista
-        if (clienteAborrar != null) {
-            clientes.remove(clienteAborrar);
+        if (clienteBorrar != null) {
+            clientes.remove(clienteBorrar);
             return true; // Se eliminó con éxito
         }
         return false; // No se encontró ese ID
     }
 
     public boolean eliminarProveedor(int id) {
-        Proveedor proveedorAborrar = getProveedorPorId(id);
+        Proveedor proveedorBorrar = getProveedorPorId(id);
         
-        if (proveedorAborrar != null) {
-            proveedores.remove(proveedorAborrar);
+        if (proveedorBorrar != null) {
+            proveedores.remove(proveedorBorrar);
             return true;
         }
         return false;
