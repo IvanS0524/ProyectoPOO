@@ -748,7 +748,6 @@ public class MiTienda extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(rootPane, "Venta registrada con éxito.");
             JOptionPane.showMessageDialog(rootPane, ventaFinal.generarComprobante(), "Factura de Venta", JOptionPane.INFORMATION_MESSAGE);
-            btnLimpiarVActionPerformed(null); 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Error al procesar la venta: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
@@ -756,7 +755,6 @@ public class MiTienda extends javax.swing.JFrame {
 
     private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
         // TODO add your handling code here:
-        //NECESITO EXPLII
         try {
             String idStr = JOptionPane.showInputDialog(this, "Ingrese el ID del Proveedor:");
             if (idStr == null || idStr.trim().isEmpty()) return;
@@ -776,7 +774,6 @@ public class MiTienda extends javax.swing.JFrame {
             actualizarTablaProveedores();
             guardarAutomaticamente();
             JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
