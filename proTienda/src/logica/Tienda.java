@@ -148,4 +148,10 @@ public class Tienda implements Serializable {
         return nuevaVenta;
     }
     
+    public void procesarTransaccion(Transaccion t) {
+        t.calcularTotal();
+        t.procesarStock();
+        this.addTransaccion(t);
+    }
+    
 }

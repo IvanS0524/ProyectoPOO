@@ -5,8 +5,8 @@
 package vista;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.*;
@@ -42,7 +42,11 @@ public class MiTienda extends javax.swing.JFrame {
     Tienda tienda = new Tienda();
     Archivo archivo = new Archivo("tienda.bin");
     private Transaccion ultimaTransaccion = null;
-
+    
+    private ArrayList<DetalleCompra> carritoCompras = new ArrayList();
+    private Proveedor proveedorActualCompra = null;
+    private ArrayList<DetalleVenta> carritoVentas = new ArrayList();
+    private Cliente clienteActualVenta = null;
     private void guardarAutomaticamente() {
         try {
             archivo.guardarEnArchivo(tienda);
@@ -148,6 +152,7 @@ public class MiTienda extends javax.swing.JFrame {
         jTFIdCliente = new javax.swing.JTextField();
         btnLimpiarV = new javax.swing.JButton();
         jTFIdProducto = new javax.swing.JTextField();
+        btnAgregarCarritoVenta = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -164,6 +169,7 @@ public class MiTienda extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jTFIdProveedor = new javax.swing.JTextField();
         btnLimpiarC = new javax.swing.JButton();
+        btnAgregarCarritoCompra = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -221,6 +227,13 @@ public class MiTienda extends javax.swing.JFrame {
             }
         });
 
+        btnAgregarCarritoVenta.setText("Agregar al carrito");
+        btnAgregarCarritoVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarCarritoVentaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -229,26 +242,29 @@ public class MiTienda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel11))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))))
-                .addGap(85, 85, 85)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRealizarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnComprobanteVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel11))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(3, 3, 3)))))
+                        .addGap(85, 85, 85)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnRealizarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnComprobanteVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnAgregarCarritoVenta))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -276,7 +292,9 @@ public class MiTienda extends javax.swing.JFrame {
                             .addComponent(btnLimpiarV)
                             .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarCarritoVenta)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ventas", jPanel1);
@@ -311,6 +329,13 @@ public class MiTienda extends javax.swing.JFrame {
         btnLimpiarC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarCActionPerformed(evt);
+            }
+        });
+
+        btnAgregarCarritoCompra.setText("Agregar al carrito");
+        btnAgregarCarritoCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarCarritoCompraActionPerformed(evt);
             }
         });
 
@@ -349,7 +374,8 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnComprobanteCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregarCarritoCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(64, 64, 64))
         );
         jPanel2Layout.setVerticalGroup(
@@ -358,31 +384,37 @@ public class MiTienda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarCarritoCompra))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCompra))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(btnComprobanteCompra))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiarC))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(btnCompra)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnComprobanteCompra)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", jPanel2);
@@ -654,96 +686,72 @@ public class MiTienda extends javax.swing.JFrame {
     
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
-        try{
-            if (jTFIdProveedor.getText().isEmpty()) {
-                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID del proveedor.");
-                 return;
-            }
-            int idProv = Integer.parseInt(jTFIdProveedor.getText());
-            Proveedor proveedor = tienda.getProveedorPorId(idProv);
-
-            if (proveedor == null) {
-                JOptionPane.showMessageDialog(rootPane, "El proveedor no existe.");
+        try {
+            // 1. VALIDAR QUE HAYA ALGO EN EL CARRITO
+            if (carritoCompras.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "El carrito está vacío. Agregue productos primero.");
                 return;
             }
 
-            int idProd = Integer.parseInt(jTFId.getText());
-            int cant = Integer.parseInt(jTFCantidad.getText());
-            double pCompra = Double.parseDouble(jTFPrecioCompra.getText());
-            double pVenta = Double.parseDouble(jTFPrecioVenta.getText());
-            String nombre = jTFNombre.getText();
+            // 2. CREAR LA TRANSACCIÓN (FACTURA)
+            TCompra compraFinal = new TCompra(proveedorActualCompra);
 
-            Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
+            // Pasamos todos los detalles del carrito a la factura
+            for (DetalleCompra det : carritoCompras) {
+                compraFinal.agregarDetalle(det);
+            }
 
-            if (producto == null) return; // Si el usuario canceló
+            // 3. DELEGAR A LA TIENDA (Procesar stock y guardar)
+            // Usaremos un método nuevo en Tienda para procesar transacciones ya armadas
+            tienda.procesarTransaccion(compraFinal);
 
-            TCompra compraExitosa = tienda.registrarCompra(proveedor, producto, cant);
-
-            ultimaTransaccion = compraExitosa;
+            // 4. FINALIZAR
+            ultimaTransaccion = compraFinal;
             actualizarTablas();
             guardarAutomaticamente();
 
-            JOptionPane.showMessageDialog(rootPane, compraExitosa.generarComprobante(), 
-                                          "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);
-            btnLimpiarCActionPerformed(null);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Verifique los datos numéricos.");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error: " + ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, compraFinal.generarComprobante(), "Compra Finalizada", JOptionPane.INFORMATION_MESSAGE);
+
+            // 5. RESETEAR CARRITO (Importante)
+            carritoCompras.clear();
+            proveedorActualCompra = null;
+            jTFIdProveedor.setEditable(true); // Desbloqueamos el campo
+            btnLimpiarCActionPerformed(null); // Limpiamos todo visualmente
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error al procesar la compra: " + e.getMessage());
         }
     }//GEN-LAST:event_btnCompraActionPerformed
 
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
         // TODO add your handling code here:
         try {
-            // Validar Cliente
-            if (jTFIdCliente.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "Ingrese el ID del cliente.");
-                return;
-            }
-            int idCliente = Integer.parseInt(jTFIdCliente.getText());
-            Cliente cliente = tienda.getClientePorId(idCliente);
-
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(rootPane, "El cliente no existe.");
+            if (carritoVentas.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "El carrito de ventas está vacío. Agregue productos primero.", "Atención", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Validar Producto
-            if (jTFIdProducto.getText().isEmpty() || jTFCantidadProducto.getText().isEmpty()) {
-                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID de producto y cantidad.");
-                 return;
-            }
-            int idProd = Integer.parseInt(jTFIdProducto.getText());
-            int cant = Integer.parseInt(jTFCantidadProducto.getText());
+            TVenta ventaFinal = new TVenta(clienteActualVenta);
 
-            Producto producto = tienda.getProductoPorId(idProd);
-            if (producto == null) {
-                JOptionPane.showMessageDialog(rootPane, "El producto no existe.");
-                return;
+            for (DetalleVenta det : carritoVentas) {
+                ventaFinal.agregarDetalle(det);
             }
 
-            // Delegamos todo el proceso a la tienda.
-            // Si no hay stock, el método registrarVenta lanzará una excepción
-            TVenta ventaExitosa = tienda.registrarVenta(cliente, producto, cant);
+            ventaFinal.calcularTotal();
+            ventaFinal.procesarStock(); 
 
-            ultimaTransaccion = ventaExitosa;
-            actualizarTablas();
-            guardarAutomaticamente();
+            tienda.addTransaccion(ventaFinal);
 
-            JOptionPane.showMessageDialog(rootPane, "Venta Exitosa");
-            JOptionPane.showMessageDialog(rootPane, ventaExitosa.generarComprobante(), 
-                                          "Comprobante de Venta", JOptionPane.INFORMATION_MESSAGE);
-            btnLimpiarVActionPerformed(null);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Por favor ingrese números válidos en ID y Cantidad.");
-        } catch (IllegalArgumentException ex) {
-            // Aquí atrapamos el error de "Stock insuficiente" que lanza la Tienda
-            JOptionPane.showMessageDialog(rootPane, "No se pudo realizar la venta: " + ex.getMessage(), 
-                                          "Error de Stock", JOptionPane.WARNING_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error inesperado: " + ex.getMessage());
-        }    
+            ultimaTransaccion = ventaFinal;
+            actualizarTablas();    
+            guardarAutomaticamente();  
+
+            JOptionPane.showMessageDialog(rootPane, "Venta registrada con éxito.");
+            JOptionPane.showMessageDialog(rootPane, ventaFinal.generarComprobante(), "Factura de Venta", JOptionPane.INFORMATION_MESSAGE);
+            btnLimpiarVActionPerformed(null); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error al procesar la venta: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
     private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
@@ -835,21 +843,22 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAñadirClienteActionPerformed
 
-    private void btnLimpiarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCActionPerformed
-        // TODO add your handling code here:
-        jTFNombre.setText("");
-        jTFId.setText("");
-        jTFCantidad.setText("");
-        jTFPrecioCompra.setText("");
-        jTFPrecioVenta.setText("");
-        jTFIdProveedor.setText("");
-    }//GEN-LAST:event_btnLimpiarCActionPerformed
-
     private void btnLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarVActionPerformed
-        // TODO add your handling code here:
+
+        if (!carritoVentas.isEmpty()) {
+            int opt = JOptionPane.showConfirmDialog(rootPane, 
+                "Hay productos en el carrito. ¿Seguro desea cancelar la venta?", 
+                "Limpiar", JOptionPane.YES_NO_OPTION);
+            if (opt != JOptionPane.YES_OPTION) return;
+        }
+
+        jTFIdCliente.setText("");
         jTFIdProducto.setText("");
         jTFCantidadProducto.setText("");
-        jTFIdCliente.setText("");
+
+        carritoVentas.clear();
+        clienteActualVenta = null;
+        jTFIdCliente.setEditable(true); // Desbloquear
     }//GEN-LAST:event_btnLimpiarVActionPerformed
 
     private void btnComprobanteVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprobanteVentaActionPerformed
@@ -885,6 +894,150 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
+    private void btnAgregarCarritoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoCompraActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jTFIdProveedor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Ingrese ID del proveedor.");
+                return;
+            }
+            int idProv = Integer.parseInt(jTFIdProveedor.getText());
+            Proveedor proveedorInput = tienda.getProveedorPorId(idProv);
+
+            if (proveedorInput == null) {
+                JOptionPane.showMessageDialog(rootPane, "El proveedor no existe.");
+                return;
+            }
+
+            if (proveedorActualCompra == null) {
+                proveedorActualCompra = proveedorInput;
+                jTFIdProveedor.setEditable(false); // Bloqueamos el campo para evitar errores visuales
+            } else if (proveedorActualCompra.getId() != idProv) {
+                JOptionPane.showMessageDialog(rootPane, "No puede mezclar proveedores en una misma compra.\nTermine la compra actual o limpie el carrito.");
+                return;
+            }
+            
+            int idProd = Integer.parseInt(jTFId.getText());
+            int cant = Integer.parseInt(jTFCantidad.getText());
+            double pCompra = Double.parseDouble(jTFPrecioCompra.getText());
+            double pVenta = Double.parseDouble(jTFPrecioVenta.getText());
+            String nombre = jTFNombre.getText();
+
+            Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
+
+            if (producto == null) return; // Si canceló
+
+            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorActualCompra);
+            carritoCompras.add(detalle);
+
+            JOptionPane.showMessageDialog(rootPane, "Producto agregado al carrito.\nItems actuales: " + carritoCompras.size());
+
+            jTFId.setText("");
+            jTFNombre.setText("");
+            jTFCantidad.setText("");
+            jTFPrecioCompra.setText("");
+            jTFPrecioVenta.setText("");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Verifique los números.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error: " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnAgregarCarritoCompraActionPerformed
+
+    private void btnLimpiarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCActionPerformed
+        // TODO add your handling code here:
+        if (!carritoCompras.isEmpty()) {
+            int confirm = JOptionPane.showConfirmDialog(rootPane, 
+                "Tienes productos en el carrito. ¿Seguro que quieres limpiar todo?",
+                "Limpiar Carrito", 
+                JOptionPane.YES_NO_OPTION);
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return; 
+            }
+        }
+        
+        jTFNombre.setText("");
+        jTFId.setText("");
+        jTFCantidad.setText("");
+        jTFPrecioCompra.setText("");
+        jTFPrecioVenta.setText("");
+        jTFIdProveedor.setText("");
+        
+        carritoCompras.clear();
+        proveedorActualCompra = null;
+        jTFIdProveedor.setEditable(true);
+
+    }//GEN-LAST:event_btnLimpiarCActionPerformed
+
+    private void btnAgregarCarritoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoVentaActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jTFIdCliente.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Ingrese el ID del cliente.");
+                return;
+            }
+            int idCliente = Integer.parseInt(jTFIdCliente.getText());
+            Cliente clienteInput = tienda.getClientePorId(idCliente);
+            if (clienteInput == null) {
+                JOptionPane.showMessageDialog(rootPane, "El cliente no existe.");
+                return;
+            }
+
+            if (clienteActualVenta == null) {
+                clienteActualVenta = clienteInput;
+                jTFIdCliente.setEditable(false); // Bloquear campo
+            } else if (!clienteActualVenta.getId().equals(idCliente)) {
+                JOptionPane.showMessageDialog(rootPane, "No puede mezclar clientes en una misma venta.\nTermine la venta actual o limpie.");
+                return;
+            }
+            if (jTFIdProducto.getText().isEmpty() || jTFCantidadProducto.getText().isEmpty()) {
+                 JOptionPane.showMessageDialog(rootPane, "Ingrese ID producto y cantidad.");
+                 return;
+            }
+            int idProd = Integer.parseInt(jTFIdProducto.getText());
+            int cant = Integer.parseInt(jTFCantidadProducto.getText());
+
+            Producto producto = tienda.getProductoPorId(idProd);
+
+            if (producto == null) {
+                JOptionPane.showMessageDialog(rootPane, "El producto no existe en el inventario.");
+                return;
+            }
+
+            int cantidadYaEnCarrito = 0;
+            for (DetalleVenta d : carritoVentas) {
+                if (d.getProducto().getId().equals(idProd)) {
+                    cantidadYaEnCarrito += d.getCantidad();
+                }
+            }
+            int totalRequerido = cant + cantidadYaEnCarrito;
+            if (producto.getStock() < totalRequerido) {
+                JOptionPane.showMessageDialog(rootPane, 
+                    "Stock Insuficiente.\n" +
+                    "Stock Bodega: " + producto.getStock() + "\n" +
+                    "Ya en carrito: " + cantidadYaEnCarrito + "\n" +
+                    "Solicitado total: " + totalRequerido, 
+                    "Error de Stock", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // AGREGAR AL CARRITO
+            DetalleVenta detalle = new DetalleVenta(producto, cant, clienteActualVenta);
+            carritoVentas.add(detalle);
+
+            JOptionPane.showMessageDialog(rootPane, "Producto agregado.\nItems en carrito: " + carritoVentas.size());
+
+            jTFIdProducto.setText("");
+            jTFCantidadProducto.setText("");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Verifique que los campos numéricos sean correctos.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnAgregarCarritoVentaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -911,6 +1064,8 @@ public class MiTienda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarCarritoCompra;
+    private javax.swing.JButton btnAgregarCarritoVenta;
     private javax.swing.JButton btnAñadirCliente;
     private javax.swing.JButton btnAñadirProveedor;
     private javax.swing.JButton btnCompra;
