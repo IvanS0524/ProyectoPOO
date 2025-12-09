@@ -37,15 +37,11 @@ public class MiTienda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error al cargar archivo (puede ser la primera ejecución): " + ex.getMessage());
         }
 
-        if (tienda != null && tienda.getProductos() != null) {
-            for (Producto p : tienda.getProductos()) {
-                JOptionPane.showMessageDialog(rootPane, "Nombre: " + p.getNombre());
-            }
-        }
     }
    
     Tienda tienda = new Tienda();
     Archivo archivo = new Archivo("tienda.bin");
+    private Transaccion ultimaTransaccion = null;
 
     private void actualizarTablas(){
         actualizarTablaInventario();
@@ -313,7 +309,7 @@ public class MiTienda extends javax.swing.JFrame {
             }
         });
 
-        btnGuardarEnArchivo.setText("Guardar en archivo");
+        btnGuardarEnArchivo.setText("Imprimir Comprobante");
         btnGuardarEnArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarEnArchivoActionPerformed(evt);
@@ -360,7 +356,7 @@ public class MiTienda extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnGuardarEnArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -598,21 +594,44 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarEnArchivoActionPerformed
 
+    private void guardarAutomaticamente() {
+        try {
+            archivo.guardarEnArchivo(tienda);
+        } catch (IOException ex) {
+            System.err.println("Error al guardar automáticamente: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Error: Clase no encontrada al guardar: " + ex.getMessage());
+        }
+    }
+    
+    private void imprimirComprobante() {
+        if (ultimaTransaccion == null) {
+            JOptionPane.showMessageDialog(rootPane, "No hay transacción para imprimir.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String comprobante = "";
+        if (ultimaTransaccion instanceof Compra) {
+            comprobante = ((Compra) ultimaTransaccion).generarComprobante();
+        } else if (ultimaTransaccion instanceof Venta) {
+            comprobante = ((Venta) ultimaTransaccion).generarComprobante();
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, comprobante, "Comprobante", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     private Producto gestionarProducto(int id, String nombre, int cantidad, double pCompra, double pVenta) {
     // Usamos el método que YA tienes en tu clase Tienda
     Producto prod = tienda.getProductoPorId(id);
 
     if (prod != null) {
         // --- CASO 1: YA EXISTE (Actualizar) ---
-        int nuevoStock = prod.getStock() + cantidad;
-        prod.setStock(nuevoStock);
-        
         // Actualizamos datos informativos
         prod.setPrecioCompra(pCompra);
         prod.setPrecioVenta(pVenta);
         prod.setNombre(nombre);
         
-        JOptionPane.showMessageDialog(rootPane, "Producto existente actualizdo. Nuevo stock: " + nuevoStock);
+        JOptionPane.showMessageDialog(rootPane, "Producto existente actualizdo. Stock Acutla: " + prod.getStock());
         return prod; // Retornamos el producto existente modificado
     } else {
         // --- CASO 2: NUEVO (Crear) ---
@@ -635,15 +654,7 @@ public class MiTienda extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "El proveedor con ID " + idProv + " no existe.");
                 return; // Detenemos la ejecución aquí si no hay proveedor
             }
-            /**
-            Producto nuevoProducto = new Producto(
-                jTFNombre.getText(), 
-                Integer.parseInt(jTFId.getText()), 
-                Integer.parseInt(jTFStock.getText()), 
-                Double.parseDouble(jTFPrecioCompra.getText()), 
-                Double.parseDouble(jTFPrecioVenta.getText())
-            );
-            tienda.addProducto(nuevoProducto);**/
+
             // 2. Recoger datos de las cajas de texto
             int idProd = Integer.parseInt(jTFId.getText());
             int cant = Integer.parseInt(jTFCantidad.getText()); // Cantidad a comprar
@@ -657,10 +668,35 @@ public class MiTienda extends javax.swing.JFrame {
 
             Compra compra = new Compra(proveedorEncontrado);
             
-            DetalleCompra detalle = new DetalleCompra(producto, 1, proveedorEncontrado);
+            DetalleCompra detalle = new DetalleCompra(producto, cant, proveedorEncontrado);
             
+                        // Agregar detalle a la transacción
+            compra.agregarDetalle(detalle);
+            
+            // Calcular el total de la transacción
+            compra.calcularTotal();
+            
+            // Procesar el stock (incrementar)
+            compra.procesarStock();
+            
+            // Agregar la transacción a la tienda
+            tienda.addTransaccion(compra);
+            
+            // Guardar la última transacción para poder imprimirla después
+            ultimaTransaccion = compra;
+            
+            // Actualizar las tablas
             actualizarTablaInventario();
+            actualizarTablaTransacciones();
             
+            // Guardar automáticamente en archivo
+            guardarAutomaticamente();
+            
+            // Mostrar comprobante
+            JOptionPane.showMessageDialog(rootPane, compra.generarComprobante(), "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Limpiar campos
+            btnLimpiarCActionPerformed(null);
             JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
             JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos "+ex);
@@ -682,14 +718,51 @@ public class MiTienda extends javax.swing.JFrame {
             
             int idProd = Integer.parseInt(jTFIdProducto.getText());
             int cant = Integer.parseInt(jTFCantidadProducto.getText());
-            double pCompra = Double.parseDouble(jTFPrecioProducto.getText());
+            double pVenta = Double.parseDouble(jTFPrecioProducto.getText());
             String nombre = jTFNombreProducto.getText();
+                       
+            Producto producto = tienda.getProductoPorId(idProd);
+            if (producto == null) {
+                JOptionPane.showMessageDialog(rootPane, "El producto con ID " + idProd + " no existe en el inventario.");
+                return;
+            }
+            // Verificar que hay stock suficiente
+            if (producto.getStock() < cant) {
+                JOptionPane.showMessageDialog(rootPane, "Stock insuficiente. Stock disponible: " + producto.getStock());
+                return;
+            }
             
             Venta venta = new Venta(cliente);
             
-            DetalleVenta detalle = new DetalleVenta(p, 1, cliente);
+            DetalleVenta detalle = new DetalleVenta(producto, cant, cliente);
             
+            // Agregar detalle a la transacción
+            venta.agregarDetalle(detalle);
+            
+            // Calcular el total de la transacción
+            venta.calcularTotal();
+            
+            // Procesar el stock (decrementar)
+            venta.procesarStock();
+            
+            // Agregar la transacción a la tienda
+            tienda.addTransaccion(venta);
+            
+            // Guardar la última transacción para poder imprimirla después
+            ultimaTransaccion = venta;
+            
+            // Actualizar las tablas
             actualizarTablaInventario();
+            actualizarTablaTransacciones();
+            
+            // Guardar automáticamente en archivo
+            guardarAutomaticamente();
+            
+            // Mostrar comprobante
+            JOptionPane.showMessageDialog(rootPane, venta.generarComprobante(), "Venta Realizada", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Limpiar campos
+            btnLimpiarVActionPerformed(null);
             
             JOptionPane.showMessageDialog(rootPane, "Comprar Realizada Correctamente");
         } catch(IllegalArgumentException ex){
