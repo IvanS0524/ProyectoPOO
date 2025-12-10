@@ -1,28 +1,32 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Proyecto: Sistema de Gestión de Inventario - Tienda Minorista
+ * Integrantes:
+ *   - Iván Sierra Arrieta (0222420035)
+ *   - Carlos Romero Paternina (0222420028)
+ *   - Salomón Restrepo Güette (0222410050)
+ * 
+ * Descripción:
+ * Interfaz gráfica principal del sistema construida con Swing.
+ * Gestiona todas las operaciones de CRUD para productos, clientes, proveedores y transacciones.
+ * Realiza guardado automático de datos en archivo binario y carga inicial de datos persistentes.
  */
 package vista;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.*;
 import persistencia.Archivo;
 
-/**
- *
- * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero Paternina 0222420028 - Salomón Restrepo Güette 0222410050 
- */
 public class MiTienda extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiTienda.class.getName());
 
     /**
-     * Creates new form Tienda
-     */
+     * Constructor que inicializa la interfaz gráfica.
+     * Carga datos previos del archivo de persistencia.
+     * Actualiza todas las tablas con los datos cargados.
+     */    
     public MiTienda() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -43,6 +47,10 @@ public class MiTienda extends javax.swing.JFrame {
     Archivo archivo = new Archivo("tienda.bin");
     private Transaccion ultimaTransaccion = null;
     
+    /**
+     * Guarda automáticamente el estado actual de la tienda en archivo binario.
+     * Se llama después de operaciones críticas como agregar, eliminar, transaccione.
+     */
     private void guardarAutomaticamente() {
         try {
             archivo.guardarEnArchivo(tienda);
@@ -53,6 +61,10 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Actualiza todas las tablas de la interfaz con datos actualizados.
+     * Llamada después de cambios significativos.
+     */
     private void actualizarTablas(){
         actualizarTablaInventario();
         actualizarTablaClientes();
@@ -60,15 +72,15 @@ public class MiTienda extends javax.swing.JFrame {
         actualizarTablaTransacciones();
     }
     
-    // Método auxiliar para rellenar la tabla
+    /**
+     * Actualiza la tabla de inventario de productos.
+     * Muestra ID, nombre, stock, y precio de venta.
+     */
     private void actualizarTablaInventario() {
-        // Obtenemos el modelo de tu jTable1
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         
-        // Limpiamos la tabla para evitar duplicados si recargamos
         modelo.setRowCount(0);
         
-        // Recorremos la lista de productos
         if (tienda.getProductos() != null) {
             for (Producto p : tienda.getProductos()) {
             modelo.addRow(new Object[] {
@@ -81,6 +93,11 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }
     
+    
+    /**
+     * Actualiza la tabla de clientes registrados.
+     * Muestra ID, nombre y teléfono de cada cliente.
+     */
     private void actualizarTablaClientes() {
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.setRowCount(0);
@@ -96,6 +113,10 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Actualiza la tabla de proveedores registrados.
+     * Muestra ID, nombre y email de cada proveedor.
+     */
     private void actualizarTablaProveedores() {
         DefaultTableModel modelo = (DefaultTableModel) tblProveedores.getModel();
         modelo.setRowCount(0);
@@ -111,6 +132,10 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Actualiza la tabla de historial de transacciones.
+     * Muestra fecha, productos, total y tipo de transacción (compra/venta).
+     */
     private void actualizarTablaTransacciones() {
         DefaultTableModel modelo = (DefaultTableModel) tblTransaccion.getModel();
         modelo.setRowCount(0);
@@ -195,6 +220,7 @@ public class MiTienda extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de gestion deTienda ");
 
         jLabel8.setText("ID Producto");
 
@@ -239,28 +265,22 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel11))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(3, 3, 3)))))
-                        .addGap(85, 85, 85)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnRealizarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnComprobanteVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(btnAgregarCarritoVenta))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTFIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregarCarritoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(88, 88, 88)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRealizarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnComprobanteVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLimpiarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -279,18 +299,19 @@ public class MiTienda extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTFCantidadProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(btnComprobanteVenta)
+                            .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLimpiarV)
                             .addComponent(jTFIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))))
-                .addGap(18, 18, 18)
+                            .addComponent(jLabel11)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(btnComprobanteVenta)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnLimpiarV)))
+                .addGap(4, 4, 4)
                 .addComponent(btnAgregarCarritoVenta)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ventas", jPanel1);
@@ -342,37 +363,38 @@ public class MiTienda extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                            .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregarCarritoCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                    .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel12))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnComprobanteCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLimpiarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAgregarCarritoCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(64, 64, 64))
+                            .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFIdProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnCompra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnComprobanteCompra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,36 +403,32 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarCarritoCompra))
+                    .addComponent(jLabel12)
+                    .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpiarC))
+                    .addComponent(jLabel4)
+                    .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(13, 13, 13)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(jTFIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTFPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addComponent(btnCompra)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCompra)
+                            .addComponent(btnAgregarCarritoCompra))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnComprobanteCompra)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnComprobanteCompra)
+                            .addComponent(btnLimpiarC))))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", jPanel2);
@@ -423,7 +441,7 @@ public class MiTienda extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "iD", "Producto", "Stock", "Precio (Unidad)"
+                "ID", "Producto", "Stock", "Precio (Unidad)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -448,7 +466,7 @@ public class MiTienda extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -508,7 +526,7 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAñadirCliente)
                     .addComponent(btnEliminarCliente))
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGap(0, 27, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Clientes", jPanel4);
@@ -567,7 +585,7 @@ public class MiTienda extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminarProveedor)
                     .addComponent(btnAñadirProveedor))
-                .addGap(0, 59, Short.MAX_VALUE))
+                .addGap(0, 28, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Proveedores", jPanel6);
@@ -603,8 +621,8 @@ public class MiTienda extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Transaccion", jPanel7);
@@ -628,11 +646,17 @@ public class MiTienda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnComprobanteCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprobanteCompraActionPerformed
         // TODO add your handling code here:}
         imprimirComprobante();
     }//GEN-LAST:event_btnComprobanteCompraActionPerformed
     
+    /**
+     * Genera e imprime el comprobante de la última transacción realizada.
+     * Muestra el contenido completo del comprobante en una ventana de diálogo.
+     * Valida que exista una transacción previa; si no, muestra un mensaje de advertencia.
+     */
     private void imprimirComprobante() {
         if (ultimaTransaccion == null) {
             JOptionPane.showMessageDialog(rootPane, "No hay transacción para imprimir.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -644,6 +668,19 @@ public class MiTienda extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, comprobante, "Comprobante", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    /**
+     * Gestiona la creación o actualización de un producto.
+     * Si el producto ya existe, solicita confirmación para actualizar precios y stock.
+     * Si es nuevo, lo registra automáticamente en la tienda.
+     * 
+     * @param id Identificador único del producto
+     * @param nombre Nombre descriptivo del producto
+     * @param cantidad Cantidad a agregar al stock en compra
+     * @param pCompra Precio de costo del producto
+     * @param pVenta Precio de venta del producto
+     * @return El objeto Producto gestionado ya sea nuevo o actualizado
+     * @throws IllegalArgumentException Si el usuario cancela la actualización de producto existente
+     */
     private Producto gestionarProducto(int id, String nombre, int cantidad, double pCompra, double pVenta) {
         Producto prod = tienda.getProductoPorId(id);
 
@@ -679,6 +716,14 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Manejador del evento para el botón Realizar Compra
+     * Confirma la transacción de compra actual, procesa el carrito y genera el comprobante.
+     * Actualiza automáticamente el inventario, persiste datos y limpia la interfaz.
+     * Valida que el carrito de compra no esté vacío antes de procesar.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
         // TODO add your handling code here:
         try {
@@ -698,6 +743,14 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCompraActionPerformed
 
+    /**
+     * Maneja el evento para el botón Realizar Venta
+     * Confirma la transacción de venta actual, valida stock disponible y procesa el carrito
+     * Actualiza el inventario 
+     * Genera comprobante de venta y limpia la interfaz automáticamente
+     * 
+     * @param evt Evento del botón
+     */
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
         // TODO add your handling code here:
         try {
@@ -717,6 +770,14 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
+    /**
+     * Maneja el evento Añadir Proveedor
+     * Solicita al usuario los datos del nuevo proveedor (ID, nombre, email)
+     * Valida que el email sea válido formato correct y que el ID sea único
+     * Registra el proveedor en la tienda, actualiza la tabla y guarda los cambios.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnAñadirProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProveedorActionPerformed
         // TODO add your handling code here:
         try {
@@ -747,6 +808,14 @@ public class MiTienda extends javax.swing.JFrame {
         }     
     }//GEN-LAST:event_btnAñadirProveedorActionPerformed
 
+    /**
+     * Maneja el evento para el botón Eliminar Proveedor
+     * Solicita el ID del proveedor a eliminar y pide confirmación del usuario.
+     * Busca el proveedor en la tienda y lo elimina si existe.
+     * Actualiza la tabla de proveedores y guarda los cambios.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProveedorActionPerformed
         // TODO add your handling code here:
         try {
@@ -773,6 +842,14 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarProveedorActionPerformed
 
+    /**
+     * Maneja el evento para el botón Añadir Cliente
+     * Solicita al usuario los datos del nuevo cliente como ID, nombre, teléfono
+     * Valida que el ID sea único
+     * Registra el cliente en la tienda, actualiza la tabla y guarda los cambios.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnAñadirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirClienteActionPerformed
         // TODO add your handling code here:
         try {
@@ -790,11 +867,9 @@ public class MiTienda extends javax.swing.JFrame {
             if (tel == null) return;
 
             tienda.registrarCliente(id, nombre, tel);
-
             actualizarTablaClientes();
             guardarAutomaticamente();
             JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El ID debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
@@ -804,6 +879,14 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAñadirClienteActionPerformed
 
+    /**
+     * Maneja del evento para el botón Limpiar del carrito de ventas
+     * Valida si hay productos en el carrito antes de limpiar
+     * Si hay items, pide confirmación al usuario antes de cancelar la venta
+     * Limpia tanto la lógica del carrito como los campos de entrada en la igu 
+     * 
+     * @param evt Evento del botón
+     */
     private void btnLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarVActionPerformed
         // TODO add your handling code here:
         if (tienda.getItemsCarritoVenta() > 0) {
@@ -824,11 +907,26 @@ public class MiTienda extends javax.swing.JFrame {
         jTFIdCliente.setEditable(true);
     }//GEN-LAST:event_btnLimpiarVActionPerformed
 
+    /**
+     * Maneja el evento para el botón Imprimir Comprobante de venta.
+     * Llamada cuando el usuario solicita imprimir el comprobante de la última venta realizada.
+     * Valida que exista una transacción previa antes de intentar imprimir.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnComprobanteVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprobanteVentaActionPerformed
         // TODO add your handling code here:
         imprimirComprobante();
     }//GEN-LAST:event_btnComprobanteVentaActionPerformed
 
+    /**
+     * Maneja el evento para el botón Eliminar Cliente
+     * Solicita el ID del cliente a eliminar y pide confirmación del usuario.
+     * Busca el cliente en la tienda y lo elimina si existe.
+     * Actualiza la tabla de clientes y guardae los cambios en el archivo.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
         // TODO add your handling code here:
         try {
@@ -857,10 +955,18 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
+    /**
+     * Maneja el evento para el botón Agregar al Carrito de compra.
+     * Valida todos los campos proveedor existente, producto, cantidad y precios.
+     * Gestiona la creación o actualización de productos según sea necesario.
+     * Agrega el producto al carrito de compra con la cantidad especificada.
+     * limpia campos de entrada
+     * 
+     * @param evt Evento del botón
+     */
     private void btnAgregarCarritoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoCompraActionPerformed
         // TODO add your handling code here:
         try {
-            // Validación básica de campos vacíos
             if (jTFIdProveedor.getText().isEmpty()) { JOptionPane.showMessageDialog(rootPane, "Ingrese ID proveedor"); return; }
 
             int idProv = Integer.parseInt(jTFIdProveedor.getText());
@@ -876,16 +982,16 @@ public class MiTienda extends javax.swing.JFrame {
             Producto producto = gestionarProducto(idProd, nombre, cant, pCompra, pVenta);
             if (producto == null) return;
 
-            // La tienda se encarga de validar reglas y guardar
             tienda.agregarAlCarritoCompra(producto, cant, proveedor);
 
             JOptionPane.showMessageDialog(rootPane, "Agregado. Items: " + tienda.getItemsCarritoCompra());
 
-            jTFIdProveedor.setEditable(false); // Feedback visual
-            // Limpiar campos
-            jTFId.setText(""); jTFNombre.setText(""); jTFCantidad.setText(""); 
-            jTFPrecioCompra.setText(""); jTFPrecioVenta.setText("");
-
+            jTFIdProveedor.setEditable(false);
+            jTFId.setText(""); 
+            jTFNombre.setText(""); 
+            jTFCantidad.setText(""); 
+            jTFPrecioCompra.setText(""); 
+            jTFPrecioVenta.setText("");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(rootPane, "Datos numéricos inválidos");
         } catch (IllegalArgumentException e) {
@@ -895,22 +1001,42 @@ public class MiTienda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarCarritoCompraActionPerformed
 
+    /**
+     * Maneja el evento para el botón Limpiar del carrito de compras.
+     * Valida si hay productos en el carrito antes de limpiar.
+     * Si hay items, pide confirmación al usuario antes de cancelar la compra.
+     * Limpia tanto la lógica del carrito como los campos de entrada en la ifu.
+     * Restaura la edición del campo de proveedor.
+     * 
+     * @param evt Evento del botón
+     */
     private void btnLimpiarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCActionPerformed
         // TODO add your handling code here:
         if (tienda.getItemsCarritoCompra() > 0) { // Preguntamos a la tienda
             int cf = JOptionPane.showConfirmDialog(rootPane, "¿Limpiar carrito?", "Confirma", JOptionPane.YES_NO_OPTION);
             if (cf != JOptionPane.YES_OPTION) return;
         }
-
-        tienda.limpiarCarritoCompra(); // Limpieza lógica
-
-        // Limpieza visual
+        tienda.limpiarCarritoCompra(); 
+       
         jTFIdProveedor.setEditable(true);
         jTFIdProveedor.setText("");
-        jTFNombre.setText(""); jTFId.setText(""); jTFCantidad.setText(""); 
-        jTFPrecioCompra.setText(""); jTFPrecioVenta.setText("");
+        jTFNombre.setText(""); 
+        jTFId.setText(""); 
+        jTFCantidad.setText(""); 
+        jTFPrecioCompra.setText("");
+        jTFPrecioVenta.setText("");
     }//GEN-LAST:event_btnLimpiarCActionPerformed
 
+    /**
+     * Maneja del evento para el botón Agregar al Carrito de venta.
+     * Valida todos los campos cliente existente, producto existente y cantidad válida.
+     * Verifica que el producto tenga stock suficiente para la venta.
+     * Valida que todas las ventas en el carrito sean del mismo cliente.
+     * Agrega el producto al carrito de venta con la cantidad especificada.
+     * deshabilita campo de cliente, limpia campos de entrada
+     * 
+     * @param evt Evento del botón
+     */
     private void btnAgregarCarritoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoVentaActionPerformed
         // TODO add your handling code here:
         try {
@@ -928,7 +1054,6 @@ public class MiTienda extends javax.swing.JFrame {
             Producto producto = tienda.getProductoPorId(idProd);
             if (producto == null) { JOptionPane.showMessageDialog(rootPane, "Producto no existe"); return; }
 
-            // La tienda valida el STOCK acumulado y el cliente
             tienda.agregarAlCarritoVenta(producto, cant, cliente);
 
             JOptionPane.showMessageDialog(rootPane, "Agregado. Items: " + tienda.getItemsCarritoVenta());
@@ -939,7 +1064,6 @@ public class MiTienda extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(rootPane, "Verifique números");
         } catch (IllegalArgumentException e) {
-            // Aquí cae el error de STOCK INSUFICIENTE o Cliente Mezclado
             JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Atención", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Error: " + e.getMessage());

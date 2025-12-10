@@ -1,14 +1,20 @@
+/*
+ * Proyecto: Sistema de Gestión de Inventario - Tienda Minorista
+ * Integrantes:
+ *   - Iván Sierra Arrieta (0222420035)
+ *   - Carlos Romero Paternina (0222420028)
+ *   - Salomón Restrepo Güette (0222410050)
+ * 
+ * Descripción:
+ * Implementación de IArchivo para persistencia en archivos binarios.
+ * Utiliza serialización de objetos Java para guardar/cargar el estado de la tienda.
+ */
 package persistencia;
 
 import Interfaz.IArchivo;
+import java.io.*;
 import logica.Tienda;
 
-import java.io.*;
-
-/**
- *
- * @author Ivan Sierra Arrieta 0222420035 - Carlos Romero 02224200 - Salomon Restrepo  
- */
 public class Archivo implements IArchivo {
     private String nombreArchivo;
 
@@ -27,10 +33,8 @@ public class Archivo implements IArchivo {
     public Tienda cargarDesdeArchivo() throws ClassNotFoundException, IOException{
         File archivo = new File(nombreArchivo);
         if (!archivo.exists()) {
-            return new Tienda(); // Retorna una tienda nueva si no hay datos previos
+            return new Tienda();
         }
-
-        // Usamos buffer para optimizar la lectura
         try (ObjectInputStream ois = new ObjectInputStream(
                 new BufferedInputStream(new FileInputStream(archivo)))) {
             Object objeto = ois.readObject();

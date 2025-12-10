@@ -1,27 +1,45 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Proyecto: Sistema de Gestión de Inventario - Tienda Minorista
+ * Integrantes:
+ *   - Iván Sierra Arrieta (0222420035)
+ *   - Carlos Romero Paternina (0222420028)
+ *   - Salomón Restrepo Güette (0222410050)
+ * 
+ * Descripción:
+ * Clase que representa una transacción de venta a clientes.
+ * Implementa procesamiento de stock (decremento) y generación de comprobante.
+ * Valida disponibilidad de stock antes de procesar la venta.
+ * Se aplica el concepto de herencia multiple mediante la implementación de ITransaccion y la herencia de Transaccion
  */
 package logica;
 
 import Interfaz.ITransaccion;
 
-/**
- *
- * @author ivans
- */
 public class TVenta extends Transaccion implements ITransaccion{
     private Cliente cliente;
 
+    /**
+     * Constructor que crea una transacción de venta asociada a un cliente.
+     * @param cliente El cliente que realiza la compra
+     */
     public TVenta(Cliente cliente) {
         super();
         this.cliente = cliente;
     }
 
+    /**
+     * Obtiene el cliente asociado a esta venta.
+     * @return El cliente de la venta
+     */
     public Cliente getCliente() {
         return cliente;
     } 
         
+    /**
+     * Procesa el stock decrementando la cantidad de cada producto.
+     * Valida que haya stock suficiente antes de decrementar.
+     * @throws IllegalArgumentException Si no hay stock suficiente para alguno de los productos
+     */
     @Override
     public void procesarStock() {
         for (Detalle detalle : this.detalles) {
@@ -34,6 +52,11 @@ public class TVenta extends Transaccion implements ITransaccion{
         }
     }
 
+    /**
+     * Genera un comprobante detallado de la venta.
+     * Incluye ID, fecha, cliente, teléfono, detalles de productos y total.
+     * @return String formateado con el comprobante de venta
+     */
     @Override
     public String generarComprobante() {
         StringBuilder comprobante = new StringBuilder();

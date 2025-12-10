@@ -1,0 +1,340 @@
+=======================================================================
+          INSTRUCCIONES DE EJECUCIÓN - SISTEMA DE GESTIÓN DE INVENTARIO
+=======================================================================
+
+PROYECTO: Sistema de Gestión de Inventario - Tienda Minorista
+INTEGRANTES:
+  - Iván Sierra Arrieta (0222420035)
+  - Carlos Romero Paternina (0222420028)
+  - Salomón Restrepo Güette (0222410050)
+
+UNIVERSIDAD DEL NORTE
+PROGRAMACIÓN ORIENTADA A OBJETOS
+DICIEMBRE 2025
+
+=======================================================================
+                           REQUISITOS PREVIOS
+=======================================================================
+
+1. JAVA RUNTIME ENVIRONMENT (JRE) 8 O SUPERIOR
+   - Verifica si tienes Java instalado abriendo una terminal y escribiendo:
+     
+     Windows (PowerShell/CMD):
+       java -version
+     
+     Linux/Mac:
+       java -version
+   
+   - Si no está instalado, descarga Java desde:
+     https://www.java.com/es/download/
+
+2. SISTEMA OPERATIVO
+   - Windows 7 o superior
+   - Linux (cualquier distribución reciente)
+   - macOS 10.10 o superior
+
+3. HARDWARE MÍNIMO
+   - Procesador: 1 GHz o superior
+   - RAM: 512 MB (1 GB recomendado)
+   - Espacio en disco: 50 MB
+   - Resolución de pantalla: 1024x768 o superior
+
+=======================================================================
+                        MÉTODO 1: DOBLE CLIC (MÁS FÁCIL)
+=======================================================================
+
+1. Navega hasta la carpeta donde está el archivo "proTienda.jar"
+
+2. Haz doble clic en "proTienda.jar"
+
+3. La aplicación debería iniciar automáticamente
+
+NOTA: Si este método no funciona, usa el Método 2.
+
+=======================================================================
+                     MÉTODO 2: DESDE LÍNEA DE COMANDOS
+=======================================================================
+
+WINDOWS (PowerShell o CMD):
+---------------------------
+1. Abre PowerShell o CMD (Símbolo del sistema)
+
+2. Navega hasta la carpeta del proyecto:
+   cd C:\ruta\a\la\carpeta\que\contiene\proTienda.jar
+
+3. Ejecuta el comando:
+   java -jar proTienda.jar
+
+LINUX / macOS (Terminal):
+--------------------------
+1. Abre una Terminal
+
+2. Navega hasta la carpeta del proyecto:
+   cd /ruta/a/la/carpeta/que/contiene/proTienda.jar
+
+3. Ejecuta el comando:
+   java -jar proTienda.jar
+
+=======================================================================
+                           PRIMER USO DEL SISTEMA
+=======================================================================
+
+INICIO DE LA APLICACIÓN:
+-------------------------
+Al iniciar por primera vez, verás un mensaje indicando que no hay
+archivo de datos previo. Esto es NORMAL.
+
+El sistema creará automáticamente una tienda vacía y estará listo
+para usar.
+
+CONFIGURACIÓN INICIAL RECOMENDADA:
+-----------------------------------
+Para aprovechar al máximo el sistema, sigue este orden:
+
+1. PESTAÑA "PRODUCTOS"
+   - Registra algunos productos de ejemplo
+   - Ejemplo: Laptop, Mouse, Teclado, Monitor
+   - Asigna IDs únicos, precios y stock inicial
+
+2. PESTAÑA "PROVEEDORES"
+   - Registra proveedores de donde compras productos
+   - Ejemplo: TechSupply, OfficeMax, ElectroWorld
+   - Asigna IDs únicos, nombres y emails
+
+3. PESTAÑA "CLIENTES"
+   - Registra algunos clientes de ejemplo
+   - Ejemplo: Juan Pérez, María García, Carlos López
+   - Asigna IDs únicos, nombres y teléfonos
+
+4. PESTAÑA "COMPRAS"
+   - Realiza una compra de prueba para incrementar inventario
+   - Selecciona un proveedor
+   - Agrega productos al carrito
+   - Confirma la compra
+   - Verifica que el stock se haya incrementado
+
+5. PESTAÑA "VENTAS"
+   - Realiza una venta de prueba
+   - Selecciona un cliente
+   - Agrega productos al carrito (verifica que haya stock)
+   - Confirma la venta
+   - Verifica que el stock se haya decrementado
+
+6. PESTAÑA "TRANSACCIONES"
+   - Revisa el historial de todas las operaciones
+   - Visualiza los comprobantes generados
+
+=======================================================================
+                           FLUJO DE TRABAJO TÍPICO
+=======================================================================
+
+OPERACIÓN DIARIA:
+-----------------
+
+1. REGISTRAR COMPRA:
+   Compras → Seleccionar Proveedor → Agregar Productos → Confirmar
+   
+2. REGISTRAR VENTA:
+   Ventas → Seleccionar Cliente → Agregar Productos → Confirmar
+   
+3. CONSULTAR INVENTARIO:
+   Productos → Ver tabla con stock actualizado
+   
+4. REVISAR HISTORIAL:
+   Transacciones → Ver todas las operaciones realizadas
+
+=======================================================================
+                        CARACTERÍSTICAS PRINCIPALES
+=======================================================================
+
+✓ GESTIÓN DE PRODUCTOS
+  - Agregar, modificar, eliminar productos
+  - Control automático de stock
+  - Precios de compra y venta diferenciados
+
+✓ GESTIÓN DE CLIENTES Y PROVEEDORES
+  - Base de datos completa con información de contacto
+  - Operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+
+✓ TRANSACCIONES COMERCIALES
+  - COMPRAS: Incrementan el stock automáticamente
+  - VENTAS: Decrementan el stock con validación
+  - Carritos temporales para múltiples productos
+  - Generación automática de comprobantes
+
+✓ PERSISTENCIA DE DATOS
+  - Guardado automático después de cada operación
+  - Los datos se mantienen entre sesiones
+  - Archivo: tienda.bin (se crea automáticamente)
+
+=======================================================================
+                          VALIDACIONES DEL SISTEMA
+=======================================================================
+
+El sistema incluye validaciones robustas:
+
+✓ IDs únicos para todas las entidades
+✓ Campos obligatorios verificados
+✓ Stock no puede ser negativo
+✓ Precios no pueden ser negativos
+✓ No se puede vender más de lo disponible en stock
+✓ No se pueden mezclar proveedores en una compra
+✓ No se pueden mezclar clientes en una venta
+
+=======================================================================
+                         SOLUCIÓN DE PROBLEMAS
+=======================================================================
+
+PROBLEMA: "Error al cargar archivo"
+SOLUCIÓN: El archivo tienda.bin puede estar corrupto.
+          Elimínalo manualmente y reinicia la aplicación.
+          Se creará uno nuevo automáticamente.
+
+PROBLEMA: "Stock insuficiente"
+SOLUCIÓN: No hay suficiente inventario para la venta.
+          Realiza una compra para reponer el stock.
+
+PROBLEMA: "No puede mezclar proveedores/clientes"
+SOLUCIÓN: Ya tienes un carrito en proceso con otro participante.
+          Confirma o limpia el carrito actual primero.
+
+PROBLEMA: La aplicación no inicia
+SOLUCIÓN: 
+  1. Verifica que Java esté instalado: java -version
+  2. Intenta ejecutar desde terminal con: java -jar proTienda.jar
+  3. Revisa mensajes de error en la consola
+  4. Asegúrate de tener permisos de lectura/escritura en la carpeta
+
+PROBLEMA: Error "Could not find or load main class"
+SOLUCIÓN: El archivo JAR puede estar corrupto.
+          Descarga una copia nueva del proyecto.
+
+=======================================================================
+                          ARCHIVOS GENERADOS
+=======================================================================
+
+ARCHIVO: tienda.bin
+UBICACIÓN: Misma carpeta donde está el JAR
+DESCRIPCIÓN: Contiene todos los datos del sistema (productos, 
+             clientes, proveedores, transacciones)
+FORMATO: Archivo binario serializado de Java
+TAMAÑO: Variable según cantidad de datos (generalmente < 1 MB)
+
+IMPORTANTE: 
+- NO modifiques este archivo manualmente
+- Haz copias de seguridad periódicas
+- Si lo eliminas, se perderán TODOS los datos
+
+=======================================================================
+                              NOTAS IMPORTANTES
+=======================================================================
+
+1. GUARDADO AUTOMÁTICO
+   - El sistema guarda automáticamente después de cada operación
+   - No hay botón "Guardar" manual
+   - Puedes cerrar la aplicación en cualquier momento de forma segura
+
+2. CARGA AUTOMÁTICA
+   - Al iniciar, el sistema carga automáticamente los datos previos
+   - Si hay error, se crea una tienda nueva vacía
+
+3. STOCK
+   - Se actualiza automáticamente con cada transacción
+   - COMPRAS: Incrementan (+) el stock
+   - VENTAS: Decrementan (-) el stock
+
+4. COMPROBANTES
+   - Se generan automáticamente para cada transacción
+   - Incluyen: ID, Fecha, Participante, Productos, Total
+   - Se pueden visualizar en el módulo de Transacciones
+
+5. CARRITOS TEMPORALES
+   - Permiten agregar múltiples productos antes de confirmar
+   - Se pueden limpiar sin confirmar
+   - No afectan el stock hasta confirmar la transacción
+
+=======================================================================
+                            ATAJOS DE TECLADO
+=======================================================================
+
+TAB              - Navegar entre campos de entrada
+ENTER            - Confirmar acción (en botones)
+ESC              - Cancelar/Cerrar diálogos
+CTRL + TAB       - Cambiar entre pestañas
+ALT + F4         - Cerrar aplicación
+
+=======================================================================
+                              DATOS DE EJEMPLO
+=======================================================================
+
+Para probar el sistema rápidamente, puedes usar estos datos:
+
+PRODUCTOS:
+  ID: 101, Nombre: Laptop HP,     Precio C: 800,  Precio V: 1200, Stock: 10
+  ID: 102, Nombre: Mouse Logitech, Precio C: 15,  Precio V: 25,   Stock: 50
+  ID: 103, Nombre: Teclado Mecánico, Precio C: 60, Precio V: 90,  Stock: 30
+
+CLIENTES:
+  ID: 1001, Nombre: Juan Pérez,     Teléfono: 300-123-4567
+  ID: 1002, Nombre: María García,   Teléfono: 310-987-6543
+  ID: 1003, Nombre: Carlos López,   Teléfono: 320-555-1234
+
+PROVEEDORES:
+  ID: 2001, Nombre: TechSupply,     Email: ventas@techsupply.com
+  ID: 2002, Nombre: OfficeMax,      Email: contacto@officemax.com
+  ID: 2003, Nombre: ElectroWorld,   Email: info@electroworld.com
+
+=======================================================================
+                             SOPORTE Y CONTACTO
+=======================================================================
+
+EQUIPO DE DESARROLLO:
+  - Iván Sierra Arrieta (0222420035)
+  - Carlos Romero Paternina (0222420028)
+  - Salomón Restrepo Güette (0222410050)
+
+PROYECTO: Sistema de Gestión de Inventario - Tienda Minorista
+INSTITUCIÓN: Universidad del Norte
+ASIGNATURA: Programación Orientada a Objetos
+AÑO: 2025
+
+DOCUMENTACIÓN ADICIONAL:
+  - README.md - Información general del proyecto
+  - docs/1_Contexto_del_Proyecto.md - Contexto y problemática
+  - docs/2_Desarrollo_del_Proyecto.md - Desarrollo técnico completo
+  - docs/DiagramaClases.puml - Diagrama UML del sistema
+
+REPOSITORIO:
+  GitHub: https://github.com/IvanS0524/ProyectoPOO
+
+=======================================================================
+                              ¡IMPORTANTE!
+=======================================================================
+
+Este sistema fue desarrollado con fines educativos como proyecto
+final de la asignatura de Programación Orientada a Objetos.
+
+Demuestra la aplicación práctica de:
+  ✓ Principios SOLID
+  ✓ Programación Orientada a Objetos
+  ✓ Persistencia de datos con archivos
+  ✓ Desarrollo de interfaces gráficas con Swing
+  ✓ Diseño arquitectónico en capas
+
+=======================================================================
+                          ¡GRACIAS POR USAR NUESTRO SISTEMA!
+=======================================================================
+
+¿Listo para comenzar? 
+
+1. Ejecuta: java -jar proTienda.jar
+2. Explora las diferentes pestañas
+3. Registra productos, clientes y proveedores
+4. Realiza transacciones de compra y venta
+5. Observa cómo el sistema mantiene tus datos
+
+¡Disfruta de la gestión automatizada de tu inventario!
+
+=======================================================================
+                                FIN DEL DOCUMENTO
+=======================================================================
