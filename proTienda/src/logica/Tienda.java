@@ -284,14 +284,11 @@ public class Tienda implements Serializable {
      * @throws IllegalArgumentException Si se intenta mezclar proveedores diferentes
      */
     public void agregarAlCarritoCompra(Producto p, int cantidad, Proveedor proveedor) {
-        //  Validar Regla: No mezclar proveedores
         if (proveedorEnCarrito != null && !proveedorEnCarrito.getId().equals(proveedor.getId())) {
             throw new IllegalArgumentException("No puede mezclar proveedores. Termine la compra actual o limpie el carrito.");
         }
-        // ijar proveedor
         if (proveedorEnCarrito == null) proveedorEnCarrito = proveedor;
 
-        // 3. Agregar
         DetalleCompra detalle = new DetalleCompra(p, cantidad, proveedorEnCarrito);
         carritoTemporalCompra.add(detalle);
     }
@@ -339,19 +336,16 @@ public class Tienda implements Serializable {
      * @throws IllegalArgumentException Si se mezclan clientes o no hay stock suficiente
      */
     public void agregarAlCarritoVenta(Producto p, int cantidad, Cliente cliente) {
-        // 1. Validar Regla: No mezclar clientes
         if (clienteEnCarrito != null && !clienteEnCarrito.getId().equals(cliente.getId())) {
             throw new IllegalArgumentException("No puede mezclar clientes. Termine la venta actual o limpie el carrito.");
         }
-
-        // VALIDAR STOCK Sumando lo que ya hay en el carrito
         int cantidadEnCarrito = 0;
         for (DetalleVenta d : carritoTemporalVenta) {
             if (d.getProducto().getId().equals(p.getId())) {
                 cantidadEnCarrito += d.getCantidad();
             }
         }
-        
+     
         if (p.getStock() < (cantidad + cantidadEnCarrito)) {
             throw new IllegalArgumentException("Stock insuficiente. Disponible: " + p.getStock() + 
                                                ". (En carrito: " + cantidadEnCarrito + ")");
