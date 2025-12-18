@@ -84,7 +84,6 @@ Sistema completo de gestión de inventario desarrollado en Java que permite a ti
 | `vista` | Interfaz gráfica de usuario (Swing) |
 | `Interfaz` | Interfaces que definen contratos |
 | `persistencia` | Implementación de persistencia en archivos |
-| `exceptions` | Excepciones personalizadas |
 
 ## 🎨 Diagrama de Clases
 
@@ -176,8 +175,6 @@ Detalle (abstracta)
 ```
 proTienda/
 ├── src/                          # Código fuente
-│   ├── exceptions/               # Excepciones personalizadas
-│   │   └── IlegalValueException.java
 │   ├── Interfaz/                 # Interfaces del sistema
 │   │   ├── IArchivo.java
 │   │   └── ITransaccion.java

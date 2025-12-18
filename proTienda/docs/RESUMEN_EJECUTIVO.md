@@ -87,9 +87,6 @@ PRESENTACIÓN → LÓGICA DE NEGOCIO → PERSISTENCIA
 4. **Interfaz:** Contratos (interfaces)
    - IArchivo, ITransaccion
 
-5. **exceptions:** Excepciones personalizadas
-   - IlegalValueException
-
 ### Jerarquías de Herencia
 
 **Entidad** → Producto, Cliente, Proveedor  

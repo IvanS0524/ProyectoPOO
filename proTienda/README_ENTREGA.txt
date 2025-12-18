@@ -95,8 +95,6 @@ Fecha de Entrega: Diciembre 2025
    Estructura de Paquetes:
    
    src/
-   ├── exceptions/
-   │   └── IlegalValueException.java ✓
    ├── Interfaz/
    │   ├── IArchivo.java ✓
    │   └── ITransaccion.java ✓

@@ -137,13 +137,6 @@ Desarrollar un sistema de gestión de inventario robusto y funcional que aplique
 - Java Runtime Environment (JRE) 8 o superior
 - Sistema Operativo: Windows, Linux o macOS
 
-### 5.2 Requisitos de Hardware
-
-- Procesador: 1 GHz o superior
-- Memoria RAM: 512 MB mínimo (1 GB recomendado)
-- Espacio en Disco: 50 MB mínimo
-- Resolución de Pantalla: 1024x768 o superior
-
 ---
 
 ## 6. JUSTIFICACIÓN DEL PROYECTO

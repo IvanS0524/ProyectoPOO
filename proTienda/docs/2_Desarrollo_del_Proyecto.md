@@ -98,7 +98,6 @@ El sistema está organizado en 5 paquetes principales:
 2. **vista:** Interfaz gráfica de usuario (Swing)
 3. **Interfaz:** Interfaces que definen contratos
 4. **persistencia:** Implementación de persistencia en archivos
-5. **exceptions:** Excepciones personalizadas
 
 ### 3.3 Jerarquías de Clases Principales
 
@@ -262,14 +261,7 @@ Detalle (abstracta)
   - Implementa buffering para optimizar I/O
   - Maneja excepciones de I/O y ClassNotFoundException
 
-### 4.4 Paquete: exceptions
-
-#### Clase `IlegalValueException`
-- **Propósito:** Excepción personalizada para valores inválidos
-- **Uso:** Se lanza cuando se intentan establecer valores que violan reglas de negocio
-- **Tipo:** RuntimeException (no verificada)
-
-### 4.5 Paquete: vista
+### 4.4 Paquete: vista
 
 #### Clase `MiTienda`
 - **Propósito:** Interfaz gráfica principal del sistema
@@ -842,8 +834,6 @@ Este proyecto representa una solución real a un problema real, con potencial de
 ```
 proTienda/
 ├── src/
-│   ├── exceptions/
-│   │   └── IlegalValueException.java
 │   ├── Interfaz/
 │   │   ├── IArchivo.java
 │   │   └── ITransaccion.java

@@ -160,9 +160,6 @@ Desarrollar un sistema robusto de gestión de inventario aplicando principios de
 **📦 vista** - Interfaz gráfica
 - MiTienda
 
-**📦 exceptions** - Excepciones
-- IlegalValueException
-
 ---
 
 ## DIAPOSITIVA 9: JERARQUÍA DE CLASES

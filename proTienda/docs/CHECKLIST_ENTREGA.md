@@ -15,7 +15,6 @@
 
 ### Archivos de Código
 
-- [x] **exceptions/IlegalValueException.java** - Encabezado con nombres ✓
 - [x] **Interfaz/IArchivo.java** - Encabezado con nombres ✓
 - [x] **Interfaz/ITransaccion.java** - Encabezado con nombres ✓
 - [x] **logica/Cliente.java** - Encabezado con nombres ✓
