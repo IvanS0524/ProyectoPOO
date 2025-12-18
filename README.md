@@ -10,7 +10,7 @@
 - Carlos Romero Paternina (0222420028)
 - Salomón Restrepo Güette (0222410050)
 
-**Institución:** Universidad del Norte  
+**Institución:** Universidad de Cartagena  
 **Asignatura:** Programación Orientada a Objetos  
 **Fecha:** Diciembre 2025
 
@@ -92,13 +92,12 @@ El diagrama de clases completo se encuentra en el archivo `DiagramaClases.puml` 
 
 ### 3.2 Vista General de Paquetes
 
-El sistema está organizado en 5 paquetes principales:
+El sistema está organizado en 4 paquetes principales:
 
 1. **logica:** Clases de dominio y lógica de negocio
 2. **vista:** Interfaz gráfica de usuario (Swing)
 3. **Interfaz:** Interfaces que definen contratos
 4. **persistencia:** Implementación de persistencia en archivos
-5. **exceptions:** Excepciones personalizadas
 
 ### 3.3 Jerarquías de Clases Principales
 
@@ -262,14 +261,7 @@ Detalle (abstracta)
   - Implementa buffering para optimizar I/O
   - Maneja excepciones de I/O y ClassNotFoundException
 
-### 4.4 Paquete: exceptions
-
-#### Clase `IlegalValueException`
-- **Propósito:** Excepción personalizada para valores inválidos
-- **Uso:** Se lanza cuando se intentan establecer valores que violan reglas de negocio
-- **Tipo:** RuntimeException (no verificada)
-
-### 4.5 Paquete: vista
+### 4.4 Paquete: vista
 
 #### Clase `MiTienda`
 - **Propósito:** Interfaz gráfica principal del sistema
@@ -285,6 +277,8 @@ Detalle (abstracta)
   - Invocar métodos de la capa de lógica
   - Guardar datos automáticamente
   - Cargar datos al iniciar
+
+ 
 
 ---
 
@@ -842,8 +836,6 @@ Este proyecto representa una solución real a un problema real, con potencial de
 ```
 proTienda/
 ├── src/
-│   ├── exceptions/
-│   │   └── IlegalValueException.java
 │   ├── Interfaz/
 │   │   ├── IArchivo.java
 │   │   └── ITransaccion.java
