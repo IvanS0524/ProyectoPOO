@@ -8,7 +8,7 @@ INTEGRANTES:
   - Carlos Romero Paternina (0222420028)
   - Salomón Restrepo Güette (0222410050)
 
-UNIVERSIDAD DEL NORTE
+UNIVERSIDAD DE CARTAGENA
 PROGRAMACIÓN ORIENTADA A OBJETOS
 DICIEMBRE 2025
 
@@ -294,7 +294,7 @@ EQUIPO DE DESARROLLO:
   - Salomón Restrepo Güette (0222410050)
 
 PROYECTO: Sistema de Gestión de Inventario - Tienda Minorista
-INSTITUCIÓN: Universidad del Norte
+INSTITUCIÓN: Universidad de Cartagena
 ASIGNATURA: Programación Orientada a Objetos
 AÑO: 2025
 

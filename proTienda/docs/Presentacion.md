@@ -14,7 +14,7 @@
 - Salomón Restrepo Güette (0222410050)
 
 **Asignatura:** Programación Orientada a Objetos  
-**Universidad del Norte**  
+**Universidad de Cartagena**  
 **Diciembre 2025**
 
 ---
@@ -647,7 +647,7 @@ Clientes Desktop/Web/Móvil ←→ Servidor API ←→ Base de Datos
 
 ---
 
-**Universidad del Norte**  
+**Universidad de Cartagena**  
 **Programación Orientada a Objetos**  
 **Diciembre 2025**
 

@@ -10,7 +10,7 @@
 - Carlos Romero Paternina (0222420028)
 - Salomón Restrepo Güette (0222410050)
 
-**Institución:** Universidad del Norte  
+**Institución:** Universidad de Cartagena  
 **Asignatura:** Programación Orientada a Objetos  
 **Fecha:** Diciembre 2025
 

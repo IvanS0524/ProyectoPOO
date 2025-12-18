@@ -14,7 +14,7 @@ Sistema completo de gestión de inventario desarrollado en Java que permite a ti
 - **Carlos Romero Paternina** - 0222420028
 - **Salomón Restrepo Güette** - 0222410050
 
-**Universidad del Norte**  
+**Universidad de Cartagena**  
 **Asignatura:** Programación Orientada a Objetos  
 **Período:** Diciembre 2025
 
@@ -405,7 +405,7 @@ Todas las clases del dominio implementan `Serializable`:
 
 ## 📄 Licencia
 
-Este proyecto es con fines educativos para la asignatura de Programación Orientada a Objetos de la Universidad del Norte.
+Este proyecto es con fines educativos para la asignatura de Programación Orientada a Objetos de la Universidad de Cartagena.
 
 ## 📞 Contacto
 
@@ -418,13 +418,13 @@ Este proyecto es con fines educativos para la asignatura de Programación Orient
 
 ## 🙏 Agradecimientos
 
-- Universidad del Norte - Departamento de Ingeniería de Sistemas
+- Universidad de Cartagena - Facultad de Ingeniería
 - Docente de Programación Orientada a Objetos
 - Comunidad de Java y NetBeans
 
 ---
 
-**Universidad del Norte**  
+**Universidad de Cartagena**  
 **Ingeniería de Sistemas y Computación**  
 **Programación Orientada a Objetos**  
 **Diciembre 2025**

@@ -5,7 +5,7 @@
 
 ### INFORMACIÓN DEL PROYECTO
 
-**Institución:** Universidad del Norte  
+**Institución:** Universidad de Cartagena  
 **Asignatura:** Programación Orientada a Objetos  
 **Fecha de entrega:** Diciembre 2025
 

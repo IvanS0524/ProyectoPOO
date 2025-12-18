@@ -411,7 +411,7 @@ Prepárense para responder:
 
 **Proyecto:** Sistema de Gestión de Inventario - Tienda Minorista  
 **Asignatura:** Programación Orientada a Objetos  
-**Universidad del Norte**  
+**Universidad de Cartagena**  
 **Fecha:** Diciembre 2025
 
 ---

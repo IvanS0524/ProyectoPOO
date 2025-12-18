@@ -17,7 +17,7 @@
 - Carlos Romero Paternina (0222420028)
 - Salomón Restrepo Güette (0222410050)
 
-**Institución:** Universidad del Norte  
+**Institución:** Universidad de Cartagena  
 **Asignatura:** Programación Orientada a Objetos  
 **Fecha:** Diciembre 2025
 
@@ -365,16 +365,16 @@ https://github.com/IvanS0524/ProyectoPOO
 
 ## 📄 LICENCIA Y USO
 
-Este proyecto fue desarrollado con fines educativos para la asignatura de Programación Orientada a Objetos de la Universidad del Norte.
+Este proyecto fue desarrollado con fines educativos para la asignatura de Programación Orientada a Objetos de la Universidad de Cartagena.
 
-**Derechos:** Universidad del Norte © 2025  
+**Derechos:** Universidad de Cartagena © 2025  
 **Uso:** Educativo y académico
 
 ---
 
 ## 🙏 AGRADECIMIENTOS
 
-- Universidad del Norte - Departamento de Ingeniería de Sistemas
+- Universidad de Cartagena - Facultad de Ingeniería
 - Docente de Programación Orientada a Objetos
 - Compañeros de clase por el apoyo
 - Comunidad de Java y recursos en línea

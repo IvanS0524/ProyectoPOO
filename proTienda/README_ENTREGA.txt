@@ -10,7 +10,7 @@ Integrantes:
   • Carlos Romero Paternina - Código: 0222420028
   • Salomón Restrepo Güette - Código: 0222410050
 
-Institución: Universidad del Norte
+Institución: Universidad de Cartagena
 Asignatura: Programación Orientada a Objetos
 Fecha de Entrega: Diciembre 2025
 
@@ -431,7 +431,7 @@ Estado: LISTO PARA ENTREGA
 Fecha de preparación: Diciembre 2025
 Preparado por: Equipo ProyectoPOO
 Para: Profesor de Programación Orientada a Objetos
-Institución: Universidad del Norte
+Institución: Universidad de Cartagena
 
 =======================================================================
                               FIN DEL DOCUMENTO
