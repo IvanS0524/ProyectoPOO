@@ -25,9 +25,8 @@
 5. [Principios SOLID Aplicados](#5-principios-solid-aplicados)
 6. [Descripción de Archivos de Persistencia](#6-descripción-de-archivos-de-persistencia)
 7. [Funcionalidades del Sistema](#7-funcionalidades-del-sistema)
-8. [Capturas de Pantalla](#8-capturas-de-pantalla)
-9. [Manual de Usuario](#9-manual-de-usuario)
-10. [Conclusiones y Trabajo Futuro](#10-conclusiones-y-trabajo-futuro)
+8. [Manual de Usuario](#8-manual-de-usuario)
+9. [Conclusiones y Trabajo Futuro](#9-conclusiones-y-trabajo-futuro)
 
 ---
 
@@ -88,7 +87,7 @@ El sistema utiliza una **arquitectura en capas** que separa las responsabilidade
 
 ### 3.1 Diagrama Completo
 
-El diagrama de clases completo se encuentra en el archivo `Diagrama de clases UML.png`.
+El diagrama de clases completo y actualizado se encuentra en `proTienda/docs/Diagrama de clases UML.png` (archivo actualizado en Mayo 2026).
 
 ### 3.2 Vista General de Paquetes
 
@@ -609,88 +608,26 @@ public Tienda cargarDesdeArchivo() throws IOException, ClassNotFoundException {
 
 ---
 
-## 8. CAPTURAS DE PANTALLA
+## 8. MANUAL DE USUARIO
 
-### 8.1 Pantalla Principal
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Incluir captura de la ventana principal al iniciar
-- Mostrar el JTabbedPane con todas las pestañas visibles
-- Incluir descripción de cada pestaña
-
-### 8.2 Módulo de Productos
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del formulario de registro de producto
-- Captura de la tabla de productos con datos de ejemplo
-- Captura del proceso de modificación de un producto
-- Captura del mensaje de confirmación al eliminar
-
-### 8.3 Módulo de Clientes
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del formulario de registro de cliente
-- Captura de la tabla de clientes con datos de ejemplo
-- Mostrar validación de campos obligatorios
-
-### 8.4 Módulo de Proveedores
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del formulario de registro de proveedor
-- Captura de la tabla de proveedores con datos
-
-### 8.5 Módulo de Compras
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del proceso de agregar productos al carrito
-- Captura del carrito con múltiples productos
-- Captura del comprobante generado
-- Captura de la actualización del stock después de compra
-
-### 8.6 Módulo de Ventas
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del proceso de venta
-- Captura de validación de stock insuficiente
-- Captura del comprobante de venta
-- Captura de actualización de inventario después de venta
-
-### 8.7 Módulo de Transacciones
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura de la tabla de transacciones
-- Mostrar diferentes tipos de transacciones
-- Captura de comprobante detallado
-
-### 8.8 Persistencia de Datos
-
-**[INSTRUCCIONES PARA COMPLETAR]**
-- Captura del mensaje de carga exitosa al iniciar
-- Captura del mensaje de guardado automático
-- Mostrar que los datos persisten después de cerrar y reabrir
-
----
-
-## 9. MANUAL DE USUARIO
-
-### 9.1 Requisitos Previos
+### 8.1 Requisitos Previos
 
 - Java JRE 8 o superior instalado
 - Resolución de pantalla mínima: 1024x768
 
-### 9.2 Instalación
+### 8.2 Instalación
 
 1. Descargar la carpeta del proyecto
 2. Navegar a la carpeta `dist`
 3. Ejecutar el archivo `proTienda.jar`
 
-### 9.3 Primer Uso
+### 8.3 Primer Uso
 
 1. Al iniciar por primera vez, verá un mensaje indicando que no hay archivo previo
 2. Se creará una tienda vacía
 3. Comience registrando productos, clientes y proveedores
 
-### 9.4 Flujo de Trabajo Recomendado
+### 8.4 Flujo de Trabajo Recomendado
 
 **Paso 1: Configuración Inicial**
 1. Registrar proveedores con los que trabajará
@@ -707,7 +644,7 @@ public Tienda cargarDesdeArchivo() throws IOException, ClassNotFoundException {
 2. Actualizar información de clientes/proveedores según sea necesario
 3. Revisar stock antes de realizar ventas
 
-### 9.5 Solución de Problemas Comunes
+### 8.5 Solución de Problemas Comunes
 
 **Problema:** "Error al cargar archivo"
 - **Solución:** El archivo puede estar corrupto. Eliminar `tienda.bin` y comenzar de nuevo.
@@ -720,9 +657,9 @@ public Tienda cargarDesdeArchivo() throws IOException, ClassNotFoundException {
 
 ---
 
-## 10. CONCLUSIONES Y TRABAJO FUTURO
+## 9. CONCLUSIONES Y TRABAJO FUTURO
 
-### 10.1 Logros del Proyecto
+### 9.1 Logros del Proyecto
 
 ✅ **Cumplimiento de Requisitos:**
 - Sistema funcional completo con todas las operaciones CRUD
@@ -743,7 +680,7 @@ public Tienda cargarDesdeArchivo() throws IOException, ClassNotFoundException {
 - Manejo de excepciones apropiado
 - Código limpio y legible
 
-### 10.2 Impacto de la Solución
+### 9.2 Impacto de la Solución
 
 **Beneficios para el Usuario:**
 1. **Organización:** Toda la información centralizada y accesible
@@ -758,7 +695,7 @@ public Tienda cargarDesdeArchivo() throws IOException, ClassNotFoundException {
 - Proporciona historial completo para auditorías
 - Facilita la toma de decisiones basada en datos
 
-### 10.3 Escalabilidad - Mejoras Futuras
+### 9.3 Escalabilidad - Mejoras Futuras
 
 **Funcionalidades Adicionales:**
 1. **Reportes y Estadísticas:**
