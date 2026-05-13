@@ -217,7 +217,7 @@ ARCHIVO: tienda.bin
 UBICACIÓN: Misma carpeta donde está el JAR
 DESCRIPCIÓN: Contiene todos los datos del sistema (productos, 
              clientes, proveedores, transacciones)
-FORMATO: Archivo binario serializado de Java
+FORMATO DE PERSISTENCIA: Archivo binario (serialización Java). Para exportar a otros formatos profesionales, consulte la carpeta `docs/`.
 TAMAÑO: Variable según cantidad de datos (generalmente < 1 MB)
 
 IMPORTANTE: 
@@ -302,7 +302,7 @@ DOCUMENTACIÓN ADICIONAL:
   - README.md - Información general del proyecto
   - docs/1_Contexto_del_Proyecto.md - Contexto y problemática
   - docs/2_Desarrollo_del_Proyecto.md - Desarrollo técnico completo
-  - docs/DiagramaClases.puml - Diagrama UML del sistema
+   - docs/Diagrama de clases UML.png - Diagrama UML del sistema (PNG)
 
 REPOSITORIO:
   GitHub: https://github.com/IvanS0524/ProyectoPOO

@@ -203,24 +203,17 @@ Todas las clases del dominio implementan `Serializable`:
 
 ---
 
-## 📚 DOCUMENTACIÓN ENTREGADA
+## 📚 Documentación del proyecto
 
 ### Documentos Técnicos
 
 1. **Contexto del Proyecto** - Problema, solución, objetivos
 2. **Desarrollo del Proyecto** - Arquitectura, SOLID, funcionalidades
-3. **Diagrama de Clases UML** - PlantUML completo
+3. **Diagrama de Clases UML** - [Diagrama de clases UML.png](Diagrama%20de%20clases%20UML.png)
 4. **Presentación para Sustentación** - 30 diapositivas
 5. **README Principal** - Documentación profesional
 6. **Guía de Finalización** - Instrucciones complementarias
 7. **Instrucciones de Ejecución** - Guía paso a paso
-
-### Formatos Disponibles
-
-- **Markdown (.md)** - Formato original editable
-- **Word (.docx)** - Para entrega (convertible con Pandoc)
-- **PlantUML (.puml)** - Fuente del diagrama
-- **PowerPoint (.pptx)** - Para sustentación (convertible)
 
 ---
 
@@ -235,7 +228,7 @@ Todas las clases del dominio implementan `Serializable`:
 | Documentación en archivos | ✅ | Todos los .java con encabezados |
 | Documento de contexto | ✅ | `1_Contexto_del_Proyecto.md` |
 | Documento de desarrollo | ✅ | `2_Desarrollo_del_Proyecto.md` |
-| Diagrama de clases | ✅ | `DiagramaClases.puml` |
+| Diagrama de clases | ✅ | `Diagrama de clases UML.png` |
 | Código fuente | ✅ | Carpeta `src/` completa |
 | Presentación | ✅ | `Presentacion.md` |
 
@@ -369,21 +362,7 @@ Este proyecto fue desarrollado con fines educativos para la asignatura de Progra
 
 ---
 
-## 🙏 AGRADECIMIENTOS
-
-- Universidad de Cartagena - Facultad de Ingeniería
-- Docente de Programación Orientada a Objetos
-- Compañeros de clase por el apoyo
-- Comunidad de Java y recursos en línea
-
----
-
 **Documento preparado por:** Equipo ProyectoPOO  
 **Fecha:** Diciembre 2025  
-**Versión:** 1.0 Final
-
----
-
-**🎉 PROYECTO COMPLETADO EXITOSAMENTE 🎉**
 
 ---

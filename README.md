@@ -88,7 +88,7 @@ El sistema utiliza una **arquitectura en capas** que separa las responsabilidade
 
 ### 3.1 Diagrama Completo
 
-El diagrama de clases completo se encuentra en el archivo `DiagramaClases.puml` y puede visualizarse usando PlantUML.
+El diagrama de clases completo se encuentra en el archivo `Diagrama de clases UML.png`.
 
 ### 3.2 Vista General de Paquetes
 
@@ -438,7 +438,7 @@ public class MiTienda extends JFrame {
 
 **Ubicación:** Directorio raíz del proyecto (mismo nivel que el ejecutable)
 
-**Formato:** Archivo binario serializado de Java
+**Formato de persistencia:** Archivo binario (serialización Java). Para exportación o formatos profesionales, consulte `proTienda/docs/`.
 
 **Contenido:**
 - Objeto completo de la clase `Tienda`
@@ -859,7 +859,7 @@ proTienda/
 ├── docs/
 │   ├── 1_Contexto_del_Proyecto.md
 │   ├── 2_Desarrollo_del_Proyecto.md
-│   ├── DiagramaClases.puml
+│   ├── Diagrama de clases UML.png
 │   └── Presentacion.md
 ├── build/
 ├── dist/

@@ -87,7 +87,7 @@ Sistema completo de gestión de inventario desarrollado en Java que permite a ti
 
 ## 🎨 Diagrama de Clases
 
-El diagrama de clases completo se encuentra en [`docs/DiagramaClases.puml`](docs/DiagramaClases.puml) y puede visualizarse usando PlantUML.
+El diagrama de clases completo se encuentra en [`docs/Diagrama de clases UML.png`](docs/Diagrama%20de%20clases%20UML.png) (imagen). Para editar o regenerar con PlantUML, consulte la fuente en `docs/` si está disponible.
 
 ### Jerarquías Principales
 
@@ -198,7 +198,7 @@ proTienda/
 ├── docs/                         # Documentación
 │   ├── 1_Contexto_del_Proyecto.md
 │   ├── 2_Desarrollo_del_Proyecto.md
-│   ├── DiagramaClases.puml
+│   ├── Diagrama de clases UML.png
 │   └── Presentacion.md
 ├── build/                        # Archivos compilados
 ├── dist/                         # Ejecutable JAR
@@ -333,7 +333,7 @@ proTienda/
 
 ### Archivo: `tienda.bin`
 
-**Formato:** Archivo binario con serialización de objetos Java
+**Formato de persistencia:** Archivo binario (serialización Java). Para exportar a formatos profesionales (JSON, SQL, PDF), consulte la carpeta `docs/`.
 
 **Contenido:**
 - Objeto completo de la clase `Tienda`
@@ -434,7 +434,7 @@ Para más información detallada, consulta los siguientes documentos en la carpe
 
 - [`1_Contexto_del_Proyecto.md`](docs/1_Contexto_del_Proyecto.md) - Contexto y problemática del proyecto
 - [`2_Desarrollo_del_Proyecto.md`](docs/2_Desarrollo_del_Proyecto.md) - Desarrollo técnico completo, principios SOLID, capturas
-- [`DiagramaClases.puml`](docs/DiagramaClases.puml) - Diagrama de clases UML completo
+- [Diagrama de clases UML](docs/Diagrama%20de%20clases%20UML.png) - Diagrama de clases (PNG)
 - [`Presentacion.md`](docs/Presentacion.md) - Presentación para sustentación
 
 ---
